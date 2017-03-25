@@ -6,8 +6,26 @@
 
 <script>
   import store from 'renderer/vuex/store'
+
   export default {
-    store
+    store: store,
+    mounted () {
+      // Sample of axios
+      // import axios from 'axios'
+      // return new Promise((resolve, reject) => {
+      //   axios.defaults.baseURL = 'http://localhost:3000'
+      //   axios.get('PATH', {
+      //     params: {}
+      //   })
+      //   .then((response) => {
+      //     resolve(response.data.data)
+      //   }).catch((e) => {
+      //     reject()
+      //   })
+      // }).then((res) => {
+      //   console.log(res)
+      // })
+    }
   }
 </script>
 
