@@ -1,19 +1,19 @@
 import * as types from './mutation-types'
-import axios from 'axios'
+import Twitter from 'twitter'
 
 export const getHomeTweets = (context) => {
-  return new Promise((resolve, reject) => {
-    axios.defaults.baseURL = 'http://localhost:3000'
-    axios.get('PATH', {
-      params: {}
-    })
-    .then((response) => {
-      types.ADD_TWEETS
-      context.commit(types.ADD_TWEETS, response.data.data)
-      resolve()
-    }).catch((e) => {
-      console.log(e)
-      reject()
-    })
+  let client = new Twitter({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+    access_token_secret: process.env.TWITTER_ACCESS_SECRET
+  })
+
+  let params = {screen_name: 'nodejs'}
+  client.get('statuses/user_timeline', params, (error, tweets, response) => {
+    if (!error) {
+      console.log(tweets)
+      context.commit(types.ADD_TWEETS, tweets)
+    }
   })
 }

@@ -2,9 +2,9 @@
   <div>
     <button @click="updateHomeTweets">update</button>
     <div class="tweets">
-      <div class="tweet" v-for="tweet in tweets.items" :tweet="tweet">
+      <div class="tweet" v-for="tweet in tweets.items">
         <p>
-          {{ tweet.title }}
+          {{ tweet.text }}
         </p>
       </div>
     </div>
@@ -13,9 +13,9 @@
 
 <script>
   import { mapState } from 'vuex'
+
   export default {
     name: 'timeline',
-    props: ['tweet'],
     data () {
       return {}
     },
@@ -34,6 +34,6 @@
 
 <style lang="scss" scoped>
 p {
-  color: #ff0000;
+  color: #333;
 }
 </style>

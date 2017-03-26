@@ -1,5 +1,7 @@
 'use strict'
 
+require('dotenv').config({ path: __dirname + '/.env' })
+
 import { app, BrowserWindow } from 'electron'
 
 let mainWindow
