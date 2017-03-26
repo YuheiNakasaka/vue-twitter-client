@@ -6,6 +6,8 @@
   "dependencies": {
     "axios": "^0.15.3",
     "dotenv": "^4.0.0",
+    "font-awesome": "^4.7.0",
+    "moment": "^2.18.1",
     "twitter": "^1.7.0",
     "vue": "^2.1.10",
     "vue-electron": "^1.0.6",

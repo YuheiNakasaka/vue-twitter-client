@@ -9,7 +9,7 @@ export const getHomeTweets = (context) => {
     access_token_secret: process.env.TWITTER_ACCESS_SECRET
   })
 
-  let params = {screen_name: 'nodejs'}
+  let params = {screen_name: 'razokulover'}
   client.get('statuses/user_timeline', params, (error, tweets, response) => {
     if (!error) {
       console.log(tweets)
