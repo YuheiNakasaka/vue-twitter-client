@@ -7,7 +7,7 @@ const state = {
 const mutations = {
   [types.ADD_TWEETS] (state, tweets) {
     tweets.map((tweet) => {
-      state.items.push(tweet)
+      state.items.unshift(tweet)
     })
   }
 }

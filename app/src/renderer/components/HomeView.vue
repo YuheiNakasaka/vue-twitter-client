@@ -1,10 +1,10 @@
 <template>
   <div id="home">
     <div id="sidebar">
-      <sidebar-view v-on:tweetToggle="tweetToggle"></sidebar-view>
+      <sidebar-view :open="isTweetbarOpen" v-on:tweetToggle="tweetToggle"></sidebar-view>
     </div>
     <div id="tweetbar">
-      <tweetbar-view :open="isTweetbarOpen"></tweetbar-view>
+      <tweetbar-view :open="isTweetbarOpen" v-on:tweetToggle="tweetToggle"></tweetbar-view>
     </div>
     <div id="mainarea" :class="{ open: !isTweetbarOpen }">
       <timeline></timeline>

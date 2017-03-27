@@ -2,7 +2,7 @@
   <div class="tweet-box">
     <div class="tweet-btns">
       <div class="inner">
-        <span class="btn" @click="toggleTweetForm" :class="{expand: isFormOpen}">
+        <span class="btn" @click="toggleTweetForm" :class="{expand: open}">
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </span>
       </div>
@@ -13,15 +13,13 @@
 <script>
 export default {
   name: 'tweet-btn',
+  props: ['open'],
   data () {
-    return {
-      isFormOpen: false
-    }
+    return {}
   },
   methods: {
     toggleTweetForm () {
       this.$emit('tweetToggle')
-      this.isFormOpen = !this.isFormOpen
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="tweets">
-    <div class="tweet" v-for="tweet in latestTweets">
+    <div class="tweet" v-for="tweet in tweets.items">
       <!-- {{ tweet }} -->
       <div class="left">
         <img class="user-image" :src="tweet.user.profile_image_url"/>
@@ -42,9 +42,6 @@
       return {}
     },
     computed: {
-      latestTweets () {
-        return this.tweets.items.reverse()
-      },
       ...mapState([
         'tweets'
       ])

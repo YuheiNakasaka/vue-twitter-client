@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container">
     <div class="inner">
-      <tweet-btn v-on:tweetToggle="tweetToggle"></tweet-btn>
+      <tweet-btn :open="open" v-on:tweetToggle="tweetToggle"></tweet-btn>
     </div>
   </div>
 </template>
@@ -11,6 +11,7 @@ import TweetBtn from './SidebarView/TweetBtn'
 
 export default {
   name: 'sidebar-view',
+  props: ['open'],
   components: {
     TweetBtn
   },

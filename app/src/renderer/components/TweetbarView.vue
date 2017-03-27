@@ -9,13 +9,13 @@
           <span class="label">From</span>
         </div>
         <div class="input-text">
-          <textarea></textarea>
+          <textarea v-model="tweet"></textarea>
         </div>
         <div class="btns">
           <div class="total-words">
-            <span>140</span>
+            <span>{{ wordCount }}</span>
           </div>
-          <div class="submit">
+          <div class="submit" :class="{ active: tweetable }" @click="postTweet">
             <span>Tweet</span>
           </div>
         </div>
@@ -30,9 +30,32 @@ export default {
   props: ['open'],
   data () {
     return {
+      tweet: '',
+      tweetable: false
+    }
+  },
+  watch: {
+    tweet () {
+      let totalWord = 140 - this.tweet.length
+      if (totalWord < 140 && totalWord > 0) {
+        this.tweetable = true
+      } else {
+        this.tweetable = false
+      }
+    }
+  },
+  computed: {
+    wordCount () {
+      return 140 - this.tweet.length
     }
   },
   methods: {
+    postTweet () {
+      this.$store.dispatch('postTweet', {tweet: this.tweet}).then((res) => {
+        this.$emit('tweetToggle')
+        this.tweet = ''
+      })
+    }
   }
 }
 </script>
@@ -58,6 +81,8 @@ export default {
       textarea {
         width: 100%;
         height: 140px;
+        padding: 5px;
+        font-size: 14px;
       }
     }
     .btns {
@@ -76,6 +101,10 @@ export default {
         color: #fff;
         background-color: #7094AE;
         opacity: 0.8;
+      }
+      .submit.active {
+        background-color: #569CFF;
+        opacity: 1;
       }
     }
   }
