@@ -1,6 +1,6 @@
 <template>
   <div class="tweets">
-    <div class="tweet" v-for="tweet in tweets.items">
+    <div class="tweet" v-for="tweet in latestTweets">
       <!-- {{ tweet }} -->
       <div class="left">
         <img class="user-image" :src="tweet.user.profile_image_url"/>
@@ -42,6 +42,9 @@
       return {}
     },
     computed: {
+      latestTweets () {
+        return this.tweets.items.reverse()
+      },
       ...mapState([
         'tweets'
       ])
@@ -71,7 +74,7 @@
         return moment(new Date(createdAt)).locale('en-short').fromNow()
       }
     },
-    mounted () {
+    created () {
       this.$store.dispatch('getHomeTweets')
     }
   }
