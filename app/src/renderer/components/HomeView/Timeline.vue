@@ -78,59 +78,59 @@
 </script>
 
 <style lang="scss" scoped>
-.tweet {
-  overflow: hidden;
-  position: relative;
-  height: 100%;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  .left {
-    float: left;
-    width: 10%;
+.tweets {
+  .tweet {
+    overflow: hidden;
+    position: relative;
     height: 100%;
-    text-align: center;
-    .user-image {
-      width: 36px;
-      height: 36px;
-      border-radius: 4px;
-    }
-  }
-  .right {
-    float: left;
-    width: 90%;
-    height: 100%;
-    padding-left: 10px;
-    .screen-names {
-      font-size: 12px;
-      .name {
-        font-weight: bold;
-      }
-      .screen-name {
-        margin-right: 10px;
-        font-size: 10px;
-        color: #999;
-      }
-      .time {
-        font-size: 10px;
-        color: #999;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    .left {
+      float: left;
+      width: 10%;
+      height: 100%;
+      text-align: center;
+      .user-image {
+        width: 36px;
+        height: 36px;
+        border-radius: 4px;
       }
     }
-    .texts {
-      padding-top: 10px;
-      font-size: 12px;
-    }
-    .meta {
-      text-align: right;
-      color: #999;
-      .btn {
-        display: inline-block;
-        width: 44px;
+    .right {
+      float: left;
+      width: 90%;
+      height: 100%;
+      padding-left: 10px;
+      .screen-names {
         font-size: 12px;
+        .name {
+          font-weight: bold;
+        }
+        .screen-name {
+          margin-right: 10px;
+          font-size: 10px;
+          color: #999;
+        }
+        .time {
+          font-size: 10px;
+          color: #999;
+        }
+      }
+      .texts {
+        padding-top: 10px;
+        font-size: 12px;
+        color: #333;
+      }
+      .meta {
+        text-align: right;
+        color: #999;
+        .btn {
+          display: inline-block;
+          width: 44px;
+          font-size: 12px;
+        }
       }
     }
   }
-}
-p {
-  color: #333;
 }
 </style>

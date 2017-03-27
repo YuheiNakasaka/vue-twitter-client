@@ -14,6 +14,11 @@
 
 <style>
 /* reset css */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 html, body, h1, h2, h3, h4, ul, ol, dl, li, dt, dd, p, div, span, img, a, table, tr, th, td {
   margin: 0;
   padding: 0;
@@ -22,9 +27,6 @@ html, body, h1, h2, h3, h4, ul, ol, dl, li, dt, dd, p, div, span, img, a, table,
   font-size: 100%;
   text-align: left;
   vertical-align: baseline;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
 }
 article, header, footer, aside, figure, figcaption, nav, section {
   display:block;
@@ -47,6 +49,7 @@ html, body
   letter-spacing: 0.5px;
   font-family: "Source Sans Pro", Arial, sans-serif;
   margin: 0;
+  height: 100%;
 }
 
 a, a:hover, a:focus, a:visited
