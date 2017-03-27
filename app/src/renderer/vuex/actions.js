@@ -9,19 +9,20 @@ export const getHomeTweets = (context) => {
     access_token_secret: process.env.TWITTER_ACCESS_SECRET
   })
 
-  // client.get('user', {}, (error, tweets, response) => {
-  //   if (!error) {
-  //     context.commit(types.ADD_TWEETS, tweets)
-  //   }
-  // })
-
-  client.stream('user', (stream) => {
-    stream.on('data', (tweet) => {
-      context.commit(types.ADD_TWEETS, [tweet])
-    })
-
-    stream.on('error', (e) => {
-      console.log(e)
-    })
+  let params = {screen_name: 'razokulover'}
+  client.get('statuses/user_timeline', params, (error, tweets, response) => {
+    if (!error) {
+      context.commit(types.ADD_TWEETS, tweets)
+    }
   })
+
+  // client.stream('user', (stream) => {
+  //   stream.on('data', (tweet) => {
+  //     context.commit(types.ADD_TWEETS, [tweet])
+  //   })
+  //
+  //   stream.on('error', (e) => {
+  //     console.log(e)
+  //   })
+  // })
 }

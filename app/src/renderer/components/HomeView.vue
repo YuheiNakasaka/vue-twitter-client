@@ -6,7 +6,7 @@
     <div id="tweetbar">
       <tweetbar-view :open="isTweetbarOpen"></tweetbar-view>
     </div>
-    <div id="mainarea">
+    <div id="mainarea" :class="{ open: !isTweetbarOpen }">
       <timeline></timeline>
     </div>
   </div>
@@ -42,12 +42,23 @@
   display: -webkit-flex;
   display: flex;
 }
-#sidebar {
+#sidebar { // width: 55px
+  position: fixed;
+  top: 0;
+  height: 100%;
   background-color: #353535;
 }
-#tweetbar {
+#tweetbar { // width: 260px
+  position: fixed;
+  top: 0;
+  left: 55px;
+  height: 100%;
   background-color: #4174C0;
 }
 #mainarea {
+  margin-left: 315px;
+}
+#mainarea.open {
+  margin-left: 55px;
 }
 </style>

@@ -82,6 +82,7 @@
 
 <style lang="scss" scoped>
 .tweets {
+  min-width: 310px;
   .tweet {
     overflow: hidden;
     position: relative;
