@@ -19,12 +19,12 @@
             <span><i class="fa fa-reply" aria-hidden="true"></i></span>
           </div>
           <div class="retweets btn">
-            <span><i class="fa fa-retweet" aria-hidden="true"></i></span>
-            <span>{{ tweet.retweet_count }}</span>
+            <span @click="updateRT(tweet)" :class="{retweeted: tweet.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
+            <span :class="{retweeted: tweet.retweeted}">{{ tweet.retweet_count }}</span>
           </div>
-          <div class="favarites btn">
-            <span><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-            <span>{{ tweet.favorite_count }}</span>
+          <div class="favorites btn">
+            <span @click="updateFav(tweet)" :class="{favorited: tweet.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
+            <span :class="{favorited: tweet.favorited}">{{ tweet.favorite_count }}</span>
           </div>
         </div>
       </div>
@@ -39,7 +39,10 @@
   export default {
     name: 'timeline',
     data () {
-      return {}
+      return {
+        retweeted: false,
+        favorited: false
+      }
     },
     computed: {
       ...mapState([
@@ -69,6 +72,24 @@
           }
         )
         return moment(new Date(createdAt)).locale('en-short').fromNow()
+      },
+      updateRT (tweet) {
+        if (this.retweeted === false) {
+          this.$store.dispatch('postRT', {tweet: tweet})
+          this.retweeted = true
+        } else {
+          this.$store.dispatch('deleteRT', {tweet: tweet})
+          this.retweeted = false
+        }
+      },
+      updateFav (tweet) {
+        if (this.favorited === false) {
+          this.$store.dispatch('postFav', {tweet: tweet})
+          this.favorited = true
+        } else {
+          this.$store.dispatch('deleteFav', {tweet: tweet})
+          this.favorited = false
+        }
       }
     },
     created () {
@@ -129,6 +150,16 @@
           display: inline-block;
           width: 44px;
           font-size: 12px;
+        }
+        .retweets {
+          .retweeted {
+            color: #17bf63;
+          }
+        }
+        .favorites {
+          .favorited {
+            color: #e0245e;
+          }
         }
       }
     }

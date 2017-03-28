@@ -24,6 +24,62 @@ export const postTweet = (context, payload) => {
   })
 }
 
+export const postRT = (context, payload) => {
+  let client = getClient()
+  return new Promise((resolve, reject) => {
+    client.post('statuses/retweet/' + payload.tweet.id_str, (error, tweet, response) => {
+      if (!error) {
+        context.commit(types.INCREASE_RT_COUNT, payload.tweet)
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  })
+}
+
+export const deleteRT = (context, payload) => {
+  let client = getClient()
+  return new Promise((resolve, reject) => {
+    client.post('statuses/unretweet/' + payload.tweet.id_str, (error, tweet, response) => {
+      if (!error) {
+        context.commit(types.DECREASE_RT_COUNT, payload.tweet)
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  })
+}
+
+export const postFav = (context, payload) => {
+  let client = getClient()
+  return new Promise((resolve, reject) => {
+    client.post('favorites/create', {id: payload.tweet.id_str}, (error, tweet, response) => {
+      if (!error) {
+        context.commit(types.INCREASE_FAV_COUNT, payload.tweet)
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  })
+}
+
+export const deleteFav = (context, payload) => {
+  let client = getClient()
+  return new Promise((resolve, reject) => {
+    client.post('favorites/destroy', {id: payload.tweet.id_str}, (error, tweet, response) => {
+      if (!error) {
+        context.commit(types.DECREASE_FAV_COUNT, payload.tweet)
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  })
+}
+
 export const getHomeTweets = (context) => {
   let client = getClient()
 
