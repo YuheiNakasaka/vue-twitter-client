@@ -6,8 +6,14 @@ const state = {
 
 const mutations = {
   [types.ADD_TWEETS] (state, tweets) {
-    tweets.map((tweet) => {
-      state.items.unshift(tweet)
+    tweets.forEach((tweet, i) => {
+      if (state.items.length > 500) {
+        console.log('over 500: ' + i)
+        state.items.pop()
+        state.items.unshift(tweet)
+      } else {
+        state.items.unshift(tweet)
+      }
     })
   }
 }
