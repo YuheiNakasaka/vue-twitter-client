@@ -28,9 +28,14 @@
           </div>
         </div>
       </div>
-      <div class="reply-form" v-show="replayable">
-        <div class="input-text">
-          <textarea v-model="text"></textarea>
+    </div>
+    <div class="reply-form" v-if="replayable">
+      <div class="input-text">
+        <textarea v-model="text"></textarea>
+      </div>
+      <div class="btns">
+        <div class="total-words">
+          <span>{{ wordCount }}</span>
         </div>
         <div class="submit">
           <span v-if="tweeting"><i class="fa fa-spinner fa-spin"></i></span>
@@ -49,11 +54,27 @@
     props: ['tweet'],
     data () {
       return {
+        tweetable: false,
         retweeted: false,
         favorited: false,
         replayable: false,
         tweeting: false,
         text: ''
+      }
+    },
+    watch: {
+      tweet () {
+        let totalWord = 140 - this.text.length
+        if (totalWord < 140 && totalWord > 0) {
+          this.tweetable = true
+        } else {
+          this.tweetable = false
+        }
+      }
+    },
+    computed: {
+      wordCount () {
+        return 140 - this.text.length
       }
     },
     methods: {
@@ -99,7 +120,7 @@
         }
       },
       toggleReplyForm () {
-        this.replayable = !this.replayable
+        this.$store.dispatch('toggleTweetBar')
       }
     }
   }
@@ -167,6 +188,40 @@
             color: #e0245e;
           }
         }
+      }
+    }
+  }
+  .reply-form {
+    width: 100%;
+    clear: both;
+    padding: 5px;
+    background-color: #4174C0;
+    .input-text {
+      textarea {
+        width: 100%;
+        height: 100px;
+        padding: 5px;
+        font-size: 14px;
+        outline: none;
+      }
+    }
+    .btns {
+      text-align: right;
+      .total-words {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 13px;
+        color: #fff;
+      }
+      .submit {
+        display: inline-block;
+        width: 60px;
+        padding: 10px;
+        font-size: 13px;
+        color: #fff;
+        background-color: #7094AE;
+        opacity: 0.8;
+        text-align: center;
       }
     }
   }

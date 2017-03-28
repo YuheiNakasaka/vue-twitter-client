@@ -21,6 +21,8 @@
         'tweets'
       ])
     },
+    methods: {
+    },
     created () {
       this.$store.dispatch('getHomeTweets')
     }
