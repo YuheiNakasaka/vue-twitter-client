@@ -16,7 +16,8 @@
             <span>{{ wordCount }}</span>
           </div>
           <div class="submit" :class="{ active: tweetable }" @click="postTweet">
-            <span>Tweet</span>
+            <span v-if="tweeting"><i class="fa fa-spinner fa-spin"></i></span>
+            <span v-else>Tweet</span>
           </div>
         </div>
       </div>
@@ -31,7 +32,8 @@ export default {
   data () {
     return {
       tweet: '',
-      tweetable: false
+      tweetable: false,
+      tweeting: false
     }
   },
   watch: {
@@ -51,10 +53,14 @@ export default {
   },
   methods: {
     postTweet () {
-      this.$store.dispatch('postTweet', {tweet: this.tweet}).then((res) => {
-        this.$emit('tweetToggle')
-        this.tweet = ''
-      })
+      if (this.tweetable === true) {
+        this.tweeting = true
+        this.$store.dispatch('postTweet', {tweet: this.tweet}).then((res) => {
+          this.tweet = ''
+          this.tweeting = false
+          this.$emit('tweetToggle')
+        })
+      }
     }
   }
 }
@@ -96,11 +102,13 @@ export default {
       }
       .submit {
         display: inline-block;
+        width: 60px;
         padding: 10px;
         font-size: 13px;
         color: #fff;
         background-color: #7094AE;
         opacity: 0.8;
+        text-align: center;
       }
       .submit.active {
         background-color: #569CFF;
