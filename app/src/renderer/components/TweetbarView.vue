@@ -9,7 +9,7 @@
           <span class="label">From</span>
         </div>
         <div class="input-text">
-          <textarea v-model="tweet"></textarea>
+          <textarea v-bind:value="mergeTweet" v-on:input="tweet = $event.target.value"></textarea>
         </div>
         <div class="btns">
           <div class="total-words">
@@ -50,6 +50,13 @@ export default {
   computed: {
     wordCount () {
       return 140 - this.tweet.length
+    },
+    mergeTweet () {
+      let replyText = this.tweet_bar.text
+      if (this.tweet_bar.text.length > 0) {
+        this.$store.dispatch('clearTextFromForm')
+      }
+      return replyText + this.tweet
     },
     ...mapState([
       'tweet_bar'

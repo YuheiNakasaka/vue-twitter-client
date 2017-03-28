@@ -15,6 +15,14 @@ export const toggleTweetBar = (context) => {
   context.commit(types.TOGGLE_TWEET_BAR)
 }
 
+export const addTextToForm = (context, payload) => {
+  context.commit(types.ADD_TEXT_TO_FORM, payload.text)
+}
+
+export const clearTextFromForm = (context) => {
+  context.commit(types.CLEAR_TEXT_FROM_FORM)
+}
+
 export const postTweet = (context, payload) => {
   let client = getClient()
   return new Promise((resolve, reject) => {

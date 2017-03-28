@@ -29,20 +29,6 @@
         </div>
       </div>
     </div>
-    <div class="reply-form" v-if="replayable">
-      <div class="input-text">
-        <textarea v-model="text"></textarea>
-      </div>
-      <div class="btns">
-        <div class="total-words">
-          <span>{{ wordCount }}</span>
-        </div>
-        <div class="submit">
-          <span v-if="tweeting"><i class="fa fa-spinner fa-spin"></i></span>
-          <span v-else>Tweet</span>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -57,24 +43,7 @@
         tweetable: false,
         retweeted: false,
         favorited: false,
-        replayable: false,
-        tweeting: false,
-        text: ''
-      }
-    },
-    watch: {
-      tweet () {
-        let totalWord = 140 - this.text.length
-        if (totalWord < 140 && totalWord > 0) {
-          this.tweetable = true
-        } else {
-          this.tweetable = false
-        }
-      }
-    },
-    computed: {
-      wordCount () {
-        return 140 - this.text.length
+        tweeting: false
       }
     },
     methods: {
@@ -121,6 +90,7 @@
       },
       toggleReplyForm () {
         this.$store.dispatch('toggleTweetBar')
+        this.$store.dispatch('addTextToForm', {text: '@' + this.tweet.user.screen_name + ' '})
       }
     }
   }
