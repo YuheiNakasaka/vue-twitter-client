@@ -9,7 +9,7 @@
           <span class="label">From</span>
         </div>
         <div class="input-text">
-          <textarea v-bind:value="mergeTweet" v-on:input="tweet = $event.target.value"></textarea>
+          <textarea :value="tweet_bar.text" @input="updateFormText"></textarea>
         </div>
         <div class="btns">
           <div class="total-words">
@@ -32,14 +32,13 @@ export default {
   name: 'tweetbar-view',
   data () {
     return {
-      tweet: '',
       tweetable: false,
       tweeting: false
     }
   },
   watch: {
     tweet () {
-      let totalWord = 140 - this.tweet.length
+      let totalWord = 140 - this.tweet_bar.text.length
       if (totalWord < 140 && totalWord > 0) {
         this.tweetable = true
       } else {
@@ -49,14 +48,7 @@ export default {
   },
   computed: {
     wordCount () {
-      return 140 - this.tweet.length
-    },
-    mergeTweet () {
-      let replyText = this.tweet_bar.text
-      if (this.tweet_bar.text.length > 0) {
-        this.$store.dispatch('clearTextFromForm')
-      }
-      return replyText + this.tweet
+      return 140 - this.tweet_bar.text.length
     },
     ...mapState([
       'tweet_bar'
@@ -72,6 +64,9 @@ export default {
           this.$emit('tweetToggle')
         })
       }
+    },
+    updateFormText (e) {
+      this.$store.dispatch('updateFormText', {text: e.target.value})
     }
   }
 }

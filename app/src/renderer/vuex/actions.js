@@ -15,12 +15,8 @@ export const toggleTweetBar = (context) => {
   context.commit(types.TOGGLE_TWEET_BAR)
 }
 
-export const addTextToForm = (context, payload) => {
-  context.commit(types.ADD_TEXT_TO_FORM, payload.text)
-}
-
-export const clearTextFromForm = (context) => {
-  context.commit(types.CLEAR_TEXT_FROM_FORM)
+export const updateFormText = (context, payload) => {
+  context.commit(types.UPDATE_FORM_TEXT, payload.text)
 }
 
 export const postTweet = (context, payload) => {

@@ -90,7 +90,7 @@
       },
       toggleReplyForm () {
         this.$store.dispatch('toggleTweetBar')
-        this.$store.dispatch('addTextToForm', {text: '@' + this.tweet.user.screen_name + ' '})
+        this.$store.dispatch('updateFormText', {text: '@' + this.tweet.user.screen_name + ' '})
       }
     }
   }
