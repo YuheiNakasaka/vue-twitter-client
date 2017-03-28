@@ -1,5 +1,5 @@
 <template>
-  <div class="tweet-box" v-show="open">
+  <div class="tweet-box" v-show="tweet_bar.isTweetbarOpen">
     <div class="tweet-forms">
       <div class="form">
         <div class="title">
@@ -26,9 +26,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'tweetbar-view',
-  props: ['open'],
   data () {
     return {
       tweet: '',
@@ -49,7 +50,10 @@ export default {
   computed: {
     wordCount () {
       return 140 - this.tweet.length
-    }
+    },
+    ...mapState([
+      'tweet_bar'
+    ])
   },
   methods: {
     postTweet () {

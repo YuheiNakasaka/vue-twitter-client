@@ -11,6 +11,10 @@ function getClient () {
   return client
 }
 
+export const toggleTweetBar = (context) => {
+  context.commit(types.TOGGLE_TWEET_BAR)
+}
+
 export const postTweet = (context, payload) => {
   let client = getClient()
   return new Promise((resolve, reject) => {
@@ -83,20 +87,20 @@ export const deleteFav = (context, payload) => {
 export const getHomeTweets = (context) => {
   let client = getClient()
 
-  // let params = {screen_name: 'razokulover'}
-  // client.get('statuses/user_timeline', params, (error, tweets, response) => {
-  //   if (!error) {
-  //     context.commit(types.ADD_TWEETS, tweets)
-  //   }
-  // })
-
-  client.stream('user', (stream) => {
-    stream.on('data', (tweet) => {
-      context.commit(types.ADD_TWEETS, [tweet])
-    })
-
-    stream.on('error', (e) => {
-      console.log(e)
-    })
+  let params = {screen_name: 'razokulover'}
+  client.get('statuses/user_timeline', params, (error, tweets, response) => {
+    if (!error) {
+      context.commit(types.ADD_TWEETS, tweets)
+    }
   })
+
+  // client.stream('user', (stream) => {
+  //   stream.on('data', (tweet) => {
+  //     context.commit(types.ADD_TWEETS, [tweet])
+  //   })
+  //
+  //   stream.on('error', (e) => {
+  //     console.log(e)
+  //   })
+  // })
 }

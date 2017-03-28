@@ -2,7 +2,7 @@
   <div class="tweet-box">
     <div class="tweet-btns">
       <div class="inner">
-        <span class="btn" @click="toggleTweetForm" :class="{expand: open}">
+        <span class="btn" @click="toggleTweetForm" :class="{expand: tweet_bar.isTweetbarOpen}">
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </span>
       </div>
@@ -11,15 +11,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'tweet-btn',
-  props: ['open'],
   data () {
     return {}
   },
+  computed: {
+    ...mapState([
+      'tweet_bar'
+    ])
+  },
   methods: {
     toggleTweetForm () {
-      this.$emit('tweetToggle')
+      this.$store.dispatch('toggleTweetBar')
     }
   }
 }

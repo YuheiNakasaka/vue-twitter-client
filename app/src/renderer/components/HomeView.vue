@@ -1,18 +1,19 @@
 <template>
   <div id="home">
     <div id="sidebar">
-      <sidebar-view :open="isTweetbarOpen" v-on:tweetToggle="tweetToggle"></sidebar-view>
+      <sidebar-view></sidebar-view>
     </div>
     <div id="tweetbar">
-      <tweetbar-view :open="isTweetbarOpen" v-on:tweetToggle="tweetToggle"></tweetbar-view>
+      <tweetbar-view></tweetbar-view>
     </div>
-    <div id="mainarea" :class="{ open: !isTweetbarOpen }">
+    <div id="mainarea" :class="{ open: !tweet_bar.isTweetbarOpen }">
       <timeline></timeline>
     </div>
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import Timeline from './HomeView/Timeline.vue'
   import SidebarView from './SidebarView.vue'
   import TweetbarView from './TweetbarView.vue'
@@ -25,14 +26,12 @@
       TweetbarView
     },
     data () {
-      return {
-        isTweetbarOpen: false
-      }
+      return {}
     },
-    methods: {
-      tweetToggle () {
-        this.isTweetbarOpen = !this.isTweetbarOpen
-      }
+    computed: {
+      ...mapState([
+        'tweet_bar'
+      ])
     }
   }
 </script>
