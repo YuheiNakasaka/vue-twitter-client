@@ -12,7 +12,7 @@
           <span class="time">{{ relativeTime(tweet.created_at) }}</span>
         </div>
         <div class="texts">
-          <span>{{ tweet.text }}</span>
+          <tweet-body :tweet="tweet"></tweet-body>
         </div>
         <div class="meta">
           <div class="replies btn">
@@ -34,10 +34,14 @@
 
 <script>
   import moment from 'moment'
+  import TweetBody from './TweetBody'
 
   export default {
     name: 'tweet',
     props: ['tweet'],
+    components: {
+      TweetBody
+    },
     data () {
       return {
         tweetable: false,
