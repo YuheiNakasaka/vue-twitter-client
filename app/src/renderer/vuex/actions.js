@@ -1,12 +1,14 @@
 import * as types from './mutation-types'
 import Twitter from 'twitter'
+import Store from '../libraries/store'
 
 function getClient () {
+  let store = new Store({ configName: 'user-preferences' })
   let client = new Twitter({
-    consumer_key: process.env.TWITTER_CONSUMER_KEY,
-    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: process.env.TWITTER_ACCESS_TOKEN,
-    access_token_secret: process.env.TWITTER_ACCESS_SECRET
+    consumer_key: store.data.tokens.consumerKey,
+    consumer_secret: store.data.tokens.consumerSecret,
+    access_token_key: store.data.tokens.accessToken,
+    access_token_secret: store.data.tokens.accessTokenSecret
   })
   return client
 }
