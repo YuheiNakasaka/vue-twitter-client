@@ -45,6 +45,7 @@
   position: fixed;
   top: 0;
   height: 100%;
+  z-index: 2000;
   background-color: #353535;
 }
 #tweetbar { // width: 260px

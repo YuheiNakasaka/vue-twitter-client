@@ -15,6 +15,10 @@ export const toggleTweetBar = (context) => {
   context.commit(types.TOGGLE_TWEET_BAR)
 }
 
+export const toggleListBar = (context) => {
+  context.commit(types.TOGGLE_LIST_BAR)
+}
+
 export const updateFormText = (context, payload) => {
   context.commit(types.UPDATE_FORM_TEXT, payload.text)
 }
