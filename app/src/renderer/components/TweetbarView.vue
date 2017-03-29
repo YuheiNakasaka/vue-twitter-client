@@ -2,11 +2,17 @@
   <div class="tweet-box" v-show="sidebar.isTweetbarOpen">
     <div class="tweet-forms">
       <div class="form">
+        <div class="close">
+          <span @click="closeBar"><i class="fa fa-times"></i></span>
+        </div>
         <div class="title">
           <span class="label">New Tweet</span>
         </div>
         <div class="from">
           <span class="label">From</span>
+        </div>
+        <div class="current-user-img">
+          <span><img :src="user.user.profile_image_url"/></span>
         </div>
         <div class="input-text">
           <textarea :value="sidebar.text" @input="updateFormText"></textarea>
@@ -51,10 +57,14 @@ export default {
       return 140 - this.sidebar.text.length
     },
     ...mapState([
-      'sidebar'
+      'sidebar',
+      'user'
     ])
   },
   methods: {
+    closeBar () {
+      this.$store.dispatch('toggleTweetBar')
+    },
     postTweet () {
       if (this.tweetable === true) {
         this.tweeting = true
@@ -79,19 +89,36 @@ export default {
   .tweet-forms {
     width: 260px;
     padding: 0 5px;
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 13px;
+      span {
+        i {
+          font-size: 24px;
+          color: #fff;
+        }
+      }
+    }
     .title {
       padding: 20px 10px;
       border-bottom: 1px solid #7094AE;
       color: #fff;
     }
     .from {
-      padding: 20px 10px;
+      padding: 20px 10px 10px 10px;
       color: #fff;
-      .label {
+    }
+    .current-user-img {
+      padding: 0 10px;
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
       }
     }
     .input-text {
-      padding: 20px 10px;
+      padding: 20px 10px 10px 10px;
       textarea {
         width: 100%;
         height: 140px;
