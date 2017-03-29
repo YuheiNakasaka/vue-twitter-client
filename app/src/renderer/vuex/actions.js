@@ -27,6 +27,10 @@ export const toggleTweetBar = (context) => {
   context.commit(types.TOGGLE_TWEET_BAR)
 }
 
+export const toggleSearchBar = (context) => {
+  context.commit(types.TOGGLE_SEARCH_BAR)
+}
+
 export const toggleListBar = (context) => {
   context.commit(types.TOGGLE_LIST_BAR)
 }
@@ -115,30 +119,33 @@ export const deleteFav = (context, payload) => {
 
 export const getHomeTweets = (context) => {
   let client = getClient()
-
-  let params = {screen_name: 'razokulover'}
-  client.get('statuses/user_timeline', params, (error, tweets, response) => {
-    if (!error) {
-      context.commit(types.ADD_TWEETS, tweets)
-    }
-  })
-  context.commit(types.UPDATE_TWEET_NAME, 'HOME')
-  // client.stream('user', (stream) => {
-  //   stream.on('data', (tweet) => {
-  //     context.commit(types.ADD_TWEETS, [tweet])
-  //   })
-  //
-  //   stream.on('error', (e) => {
-  //     console.log(e)
-  //   })
+  // let params = {screen_name: 'razokulover'}
+  // client.get('statuses/user_timeline', params, (error, tweets, response) => {
+  //   if (!error) {
+  //     context.commit(types.ADD_TWEETS, tweets)
+  //   }
   // })
+  context.commit(types.UPDATE_TWEET_NAME, 'HOME')
+  context.commit(types.CLEAR_TWEETS)
+  client.stream('user', (stream) => {
+    stream.on('data', (tweet) => {
+      context.commit(types.ADD_TWEETS, [tweet])
+    })
+
+    stream.on('error', (e) => {
+      console.log(e)
+    })
+  })
+}
+
+export const getSearchTweets = (context, payload) => {
+  console.log('search', payload.q)
 }
 
 export const getListTweets = (context, payload) => {
   let client = getClient()
   client.get('lists/statuses', {list_id: payload.list.id, count: 500}, (error, data, response) => {
     if (!error) {
-      context.commit(types.CLEAR_TWEETS)
       context.commit(types.ADD_TWEETS, data.reverse())
       context.commit(types.UPDATE_TWEET_NAME, payload.list.full_name)
     }

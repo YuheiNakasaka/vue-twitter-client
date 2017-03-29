@@ -71,7 +71,7 @@ export default {
     }
     .list-container {
       position: fixed;
-      top: 50px;
+      top: 163px;
       left: 60px;
       width: 250px;
       min-height: 350px;
