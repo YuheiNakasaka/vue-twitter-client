@@ -6,7 +6,7 @@ let winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:${require('../../../config').port}`
   : `file://${__dirname}/index.html`
 
-let store = new Store({ configName: 'user-preferences' })
+let store = new Store({ configName: 'user-preferences', defaults: {} })
 
 export default class Application {
   constructor () {
@@ -31,17 +31,20 @@ export default class Application {
   }
 
   openAuthenticationWindow () {
-    let tokens = store.get('tokens')
-    if (tokens.accessToken && tokens.accessTokenSecret && tokens.consumerKey && tokens.consumerSecret) {
+    let defaultUser = store.get('defaultUser')
+    if (defaultUser && defaultUser.tokens.accessToken && defaultUser.tokens.accessTokenSecret && defaultUser.tokens.consumerKey && defaultUser.tokens.consumerSecret) {
       this.createWindow()
     } else {
       new AuthenticationWindow().on('authentication-succeeded', (res) => {
-        store.set('tokens', {
+        store.set('defaultUser', {
+          user: res.user,
           accessToken: res.accessToken,
           accessTokenSecret: res.accessTokenSecret,
           consumerKey: process.env.TWITTER_CONSUMER_KEY,
           consumerSecret: process.env.TWITTER_CONSUMER_SECRET
         })
+        console.log(res.user)
+        console.log(store.get('defaultUser'))
         this.createWindow()
       })
     }

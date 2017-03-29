@@ -13,8 +13,8 @@
             </div>
             <div class="lists">
               <div class="list">
-                <div class="list-name">
-                  <span>my friends001</span>
+                <div class="list-name" v-for="item in lists.items">
+                  <span>{{ item.full_name }}</span>
                 </div>
               </div>
             </div>
@@ -35,7 +35,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'sidebar'
+      'sidebar',
+      'lists'
     ])
   },
   methods: {
@@ -91,12 +92,18 @@ export default {
           font-size: 16px;
           border-bottom: 1px solid #eee;
           padding-bottom: 5px;
+          span {
+            font-weight: bold;
+          }
         }
         .lists {
           padding: 5px 0;
           .list {
             .list-name {
+              cursor: pointer;
               font-size: 14px;
+              margin-bottom: 15px;
+              color: #555;
             }
           }
         }

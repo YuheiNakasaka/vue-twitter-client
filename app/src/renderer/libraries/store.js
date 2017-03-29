@@ -17,6 +17,10 @@ export default class Store {
     this.data[key] = val
     fs.writeFileSync(this.path, JSON.stringify(this.data))
   }
+
+  delete (key) {
+    delete this.data[key]
+  }
 }
 
 function parseDataFile (filePath, defaults) {

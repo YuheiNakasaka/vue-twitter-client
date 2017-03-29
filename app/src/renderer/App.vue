@@ -8,7 +8,10 @@
   import store from 'renderer/vuex/store'
 
   export default {
-    store
+    store: store,
+    created () {
+      this.$store.dispatch('initUser')
+    }
   }
 </script>
 

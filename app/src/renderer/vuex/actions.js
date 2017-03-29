@@ -2,13 +2,18 @@ import * as types from './mutation-types'
 import Twitter from 'twitter'
 import Store from '../libraries/store'
 
-function getClient () {
-  let store = new Store({ configName: 'user-preferences' })
+function getStore () {
+  return new Store({ configName: 'user-preferences' })
+}
+
+function getClient (accountType = 'defaultUser') {
+  let store = getStore()
+  let data = store.data.defaultUser
   let client = new Twitter({
-    consumer_key: store.data.tokens.consumerKey,
-    consumer_secret: store.data.tokens.consumerSecret,
-    access_token_key: store.data.tokens.accessToken,
-    access_token_secret: store.data.tokens.accessTokenSecret
+    consumer_key: data.consumerKey,
+    consumer_secret: data.consumerSecret,
+    access_token_key: data.accessToken,
+    access_token_secret: data.accessTokenSecret
   })
   return client
 }
@@ -27,6 +32,11 @@ export const updateFormText = (context, payload) => {
 
 export const clearFormText = (context) => {
   context.commit(types.CLEAR_FORM_TEXT)
+}
+
+export const initUser = (context) => {
+  let store = getStore()
+  context.commit(types.INIT_USER, store.data.defaultUser.user)
 }
 
 export const postTweet = (context, payload) => {
@@ -120,10 +130,10 @@ export const getHomeTweets = (context) => {
 }
 
 export const getMyList = (context) => {
-  // let client = getClient()
-  // client.get('lists/list', {user_id: }, (error, tweets, response) => {
-  //   if (!error) {
-  //     context.commit(types.ADD_TWEETS, tweets)
-  //   }
-  // })
+  let client = getClient()
+  client.get('lists/list', {user_id: context.state.user.user.id, screen_name: context.state.user.user.screen_name}, (error, data, response) => {
+    if (!error) {
+      context.commit(types.SET_LISTS, data)
+    }
+  })
 }

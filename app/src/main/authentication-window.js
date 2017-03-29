@@ -21,17 +21,23 @@ export default class AuthenticationWindow extends EventEmitter {
   }
 
   getAccessToken(twitter, requestToken, requestTokenSecret, url) {
+    let that = this
     this.window.webContents.on('will-navigate', (event, url) => {
       let matched
       if (matched = url.match(/\?oauth_token=([^&]*)&oauth_verifier=([^&]*)/)) {
         twitter.getAccessToken(requestToken, requestTokenSecret, matched[2], (error, accessToken, accessTokenSecret) => {
-          this.emit(
-            'authentication-succeeded',
-            {
-              accessToken: accessToken,
-              accessTokenSecret: accessTokenSecret
+          twitter.verifyCredentials(accessToken, accessTokenSecret, {}, function(error, data, response) {
+            if (!error) {
+              that.emit(
+                'authentication-succeeded',
+                {
+                  accessToken: accessToken,
+                  accessTokenSecret: accessTokenSecret,
+                  user: data
+                }
+              )
             }
-          )
+          })
         })
         event.preventDefault()
         setImmediate(() => {
