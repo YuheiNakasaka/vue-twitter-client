@@ -1,10 +1,14 @@
 import * as types from '../mutation-types'
 
 const state = {
+  tweetName: '',
   items: []
 }
 
 const mutations = {
+  [types.UPDATE_TWEET_NAME] (state, name) {
+    state.tweetName = name
+  },
   [types.ADD_TWEETS] (state, tweets) {
     tweets.forEach((tweet, i) => {
       if (state.items.length > 500) {
@@ -15,6 +19,9 @@ const mutations = {
         state.items.unshift(tweet)
       }
     })
+  },
+  [types.CLEAR_TWEETS] (state) {
+    state.items = []
   },
   [types.INCREASE_RT_COUNT] (state, tweet) {
     if (tweet.retweeted === false) {

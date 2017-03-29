@@ -2,6 +2,8 @@ import * as types from './mutation-types'
 import Twitter from 'twitter'
 import Store from '../libraries/store'
 
+let client
+
 function getStore () {
   return new Store({ configName: 'user-preferences' })
 }
@@ -9,12 +11,15 @@ function getStore () {
 function getClient (accountType = 'defaultUser') {
   let store = getStore()
   let data = store.data.defaultUser
-  let client = new Twitter({
-    consumer_key: data.consumerKey,
-    consumer_secret: data.consumerSecret,
-    access_token_key: data.accessToken,
-    access_token_secret: data.accessTokenSecret
-  })
+
+  if (client === undefined) {
+    client = new Twitter({
+      consumer_key: data.consumerKey,
+      consumer_secret: data.consumerSecret,
+      access_token_key: data.accessToken,
+      access_token_secret: data.accessTokenSecret
+    })
+  }
   return client
 }
 
@@ -117,7 +122,7 @@ export const getHomeTweets = (context) => {
       context.commit(types.ADD_TWEETS, tweets)
     }
   })
-
+  context.commit(types.UPDATE_TWEET_NAME, 'HOME')
   // client.stream('user', (stream) => {
   //   stream.on('data', (tweet) => {
   //     context.commit(types.ADD_TWEETS, [tweet])
@@ -127,6 +132,17 @@ export const getHomeTweets = (context) => {
   //     console.log(e)
   //   })
   // })
+}
+
+export const getListTweets = (context, payload) => {
+  let client = getClient()
+  client.get('lists/statuses', {list_id: payload.list.id, count: 500}, (error, data, response) => {
+    if (!error) {
+      context.commit(types.CLEAR_TWEETS)
+      context.commit(types.ADD_TWEETS, data.reverse())
+      context.commit(types.UPDATE_TWEET_NAME, payload.list.full_name)
+    }
+  })
 }
 
 export const getMyList = (context) => {

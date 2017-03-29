@@ -40,7 +40,7 @@
       <a v-for="videoEntity, i in getVideoEntities()"
          :class="{multi: getVideoEntities().length > 1}"
          @click="openInOsBrowser(videoEntity.url)">
-         <video :src="videoEntity.imgUrl" loop autoplay mute/></video>
+         <video :src="videoEntity.imgUrl" loop autoplay muted/></video>
       </a>
     </div>
   </div>

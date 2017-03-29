@@ -1,5 +1,10 @@
 <template>
   <div class="tweets">
+    <div class="tweets-header">
+      <div class="inner">
+        <h1>{{ tweets.tweetName }}</h1>
+      </div>
+    </div>
     <tweet v-for="tweet in tweets.items" :tweet="tweet" :key="tweet.str_id"></tweet>
   </div>
 </template>
@@ -32,5 +37,16 @@
 <style lang="scss" scoped>
 .tweets {
   min-width: 310px;
+  .tweets-header {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    background-color: #f6f6f6;
+    h1 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #353535;
+    }
+  }
 }
 </style>

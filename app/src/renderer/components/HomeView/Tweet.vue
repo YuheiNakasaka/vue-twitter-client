@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="tweet" v-if="tweet.retweeted">
+    <div class="tweet" v-if="tweet.retweeted_status">
       <!-- retweeted component -->
       <div class="left">
         <img class="user-image" :src="tweet.retweeted_status.user.profile_image_url"/>
@@ -15,19 +15,19 @@
           <span class="time">{{ relativeTime(tweet.retweeted_status.created_at) }}</span>
         </div>
         <div class="texts">
-          <tweet-body :tweet="tweet"></tweet-body>
+          <tweet-body :tweet="tweet.retweeted_status"></tweet-body>
         </div>
         <div class="meta">
           <div class="replies btn">
             <span @click="toggleReplyForm"><i class="fa fa-reply" aria-hidden="true"></i></span>
           </div>
           <div class="retweets btn">
-            <span @click="updateRT(tweet)" :class="{retweeted: tweet.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
-            <span :class="{retweeted: tweet.retweeted}">{{ tweet.retweet_count }}</span>
+            <span @click="updateRT(tweet.retweeted_status)" :class="{retweeted: tweet.retweeted_status.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
+            <span :class="{retweeted: tweet.retweeted_status.retweeted}">{{ tweet.retweeted_status.retweet_count }}</span>
           </div>
           <div class="favorites btn">
-            <span @click="updateFav(tweet)" :class="{favorited: tweet.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
-            <span :class="{favorited: tweet.favorited}">{{ tweet.favorite_count }}</span>
+            <span @click="updateFav(tweet.retweeted_status)" :class="{favorited: tweet.retweeted_status.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
+            <span :class="{favorited: tweet.retweeted_status.favorited}">{{ tweet.retweeted_status.favorite_count }}</span>
           </div>
         </div>
       </div>

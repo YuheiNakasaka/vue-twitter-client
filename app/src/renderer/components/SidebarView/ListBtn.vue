@@ -14,7 +14,7 @@
             <div class="lists">
               <div class="list">
                 <div class="list-name" v-for="item in lists.items">
-                  <span>{{ item.full_name }}</span>
+                  <span @click="displayList(item)">{{ item.full_name }}</span>
                 </div>
               </div>
             </div>
@@ -42,6 +42,9 @@ export default {
   methods: {
     toggleLists () {
       this.$store.dispatch('toggleListBar')
+    },
+    displayList (item) {
+      this.$store.dispatch('getListTweets', {list: item})
     }
   },
   mounted () {
