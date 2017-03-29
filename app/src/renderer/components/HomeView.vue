@@ -6,7 +6,7 @@
     <div id="tweetbar">
       <tweetbar-view></tweetbar-view>
     </div>
-    <div id="mainarea" :class="{ open: !tweet_bar.isTweetbarOpen }">
+    <div id="mainarea" :class="{ open: !sidebar.isTweetbarOpen }">
       <timeline></timeline>
     </div>
   </div>
@@ -30,7 +30,7 @@
     },
     computed: {
       ...mapState([
-        'tweet_bar'
+        'sidebar'
       ])
     }
   }

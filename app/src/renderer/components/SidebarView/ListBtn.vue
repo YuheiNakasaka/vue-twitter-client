@@ -5,7 +5,7 @@
         <span class="btn" @click="toggleLists">
           <i class="fa fa-list" aria-hidden="true"></i>
         </span>
-        <div class="list-container" v-show="tweet_bar.isListbarOpen">
+        <div class="list-container" v-show="sidebar.isListbarOpen">
           <div class="arrow-left"></div>
           <div class="inner">
             <div class="title">
@@ -35,13 +35,16 @@ export default {
   },
   computed: {
     ...mapState([
-      'tweet_bar'
+      'sidebar'
     ])
   },
   methods: {
     toggleLists () {
       this.$store.dispatch('toggleListBar')
     }
+  },
+  mounted () {
+    this.$store.dispatch('getMyList')
   }
 }
 </script>

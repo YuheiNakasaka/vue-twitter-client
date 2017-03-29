@@ -1,5 +1,5 @@
 <template>
-  <div class="tweet-box" v-show="tweet_bar.isTweetbarOpen">
+  <div class="tweet-box" v-show="sidebar.isTweetbarOpen">
     <div class="tweet-forms">
       <div class="form">
         <div class="title">
@@ -9,7 +9,7 @@
           <span class="label">From</span>
         </div>
         <div class="input-text">
-          <textarea :value="tweet_bar.text" @input="updateFormText"></textarea>
+          <textarea :value="sidebar.text" @input="updateFormText"></textarea>
         </div>
         <div class="btns">
           <div class="total-words">
@@ -37,8 +37,8 @@ export default {
     }
   },
   watch: {
-    'tweet_bar.text' () {
-      let totalWord = 140 - this.tweet_bar.text.length
+    'sidebar.text' () {
+      let totalWord = 140 - this.sidebar.text.length
       if (totalWord < 140 && totalWord > 0) {
         this.tweetable = true
       } else {
@@ -48,17 +48,17 @@ export default {
   },
   computed: {
     wordCount () {
-      return 140 - this.tweet_bar.text.length
+      return 140 - this.sidebar.text.length
     },
     ...mapState([
-      'tweet_bar'
+      'sidebar'
     ])
   },
   methods: {
     postTweet () {
       if (this.tweetable === true) {
         this.tweeting = true
-        this.$store.dispatch('postTweet', {tweet: this.tweet_bar.text}).then((res) => {
+        this.$store.dispatch('postTweet', {tweet: this.sidebar.text}).then((res) => {
           this.tweeting = false
           this.$store.dispatch('clearFormText')
           this.$emit('tweetToggle')

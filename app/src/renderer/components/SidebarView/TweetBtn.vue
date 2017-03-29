@@ -2,7 +2,7 @@
   <div class="tweet-box">
     <div class="tweet-btns">
       <div class="inner">
-        <span class="btn" @click="toggleTweetForm" :class="{expand: tweet_bar.isTweetbarOpen}">
+        <span class="btn" @click="toggleTweetForm" :class="{expand: sidebar.isTweetbarOpen}">
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </span>
       </div>
@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tweet_bar'
+      'sidebar'
     ])
   },
   methods: {

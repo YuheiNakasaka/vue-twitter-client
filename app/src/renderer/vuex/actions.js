@@ -116,3 +116,12 @@ export const getHomeTweets = (context) => {
   //   })
   // })
 }
+
+export const getMyList = (context) => {
+  // let client = getClient()
+  // client.get('lists/list', {user_id: }, (error, tweets, response) => {
+  //   if (!error) {
+  //     context.commit(types.ADD_TWEETS, tweets)
+  //   }
+  // })
+}
