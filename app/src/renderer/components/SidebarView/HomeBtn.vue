@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     displayHomeTweets (item) {
+      this.$store.dispatch('closeAllBar')
       this.$store.dispatch('getHomeTweets')
     }
   }

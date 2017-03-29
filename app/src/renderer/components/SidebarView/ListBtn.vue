@@ -41,9 +41,11 @@ export default {
   },
   methods: {
     toggleLists () {
+      if (this.sidebar.isListbarOpen === false) this.$store.dispatch('closeAllBar')
       this.$store.dispatch('toggleListBar')
     },
     displayList (item) {
+      this.$store.dispatch('toggleListBar')
       this.$store.dispatch('getListTweets', {list: item})
     }
   },
@@ -105,7 +107,7 @@ export default {
             .list-name {
               cursor: pointer;
               font-size: 14px;
-              margin-bottom: 15px;
+              margin-bottom: 20px;
               color: #555;
             }
           }

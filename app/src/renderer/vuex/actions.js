@@ -3,6 +3,7 @@ import Twitter from 'twitter'
 import Store from '../libraries/store'
 
 let client
+let homeStream
 
 function getStore () {
   return new Store({ configName: 'user-preferences' })
@@ -23,6 +24,12 @@ function getClient (accountType = 'defaultUser') {
   return client
 }
 
+function resetStream () {
+  if (homeStream) {
+    homeStream.destroy()
+  }
+}
+
 export const toggleTweetBar = (context) => {
   context.commit(types.TOGGLE_TWEET_BAR)
 }
@@ -33,6 +40,10 @@ export const toggleSearchBar = (context) => {
 
 export const toggleListBar = (context) => {
   context.commit(types.TOGGLE_LIST_BAR)
+}
+
+export const closeAllBar = (context) => {
+  context.commit(types.CLOSE_ALL_BAR)
 }
 
 export const updateFormText = (context, payload) => {
@@ -125,9 +136,11 @@ export const getHomeTweets = (context) => {
   //     context.commit(types.ADD_TWEETS, tweets)
   //   }
   // })
+  resetStream()
   context.commit(types.UPDATE_TWEET_NAME, 'HOME')
   context.commit(types.CLEAR_TWEETS)
   client.stream('user', (stream) => {
+    homeStream = stream
     stream.on('data', (tweet) => {
       context.commit(types.ADD_TWEETS, [tweet])
     })
@@ -144,10 +157,12 @@ export const getSearchTweets = (context, payload) => {
 
 export const getListTweets = (context, payload) => {
   let client = getClient()
+  resetStream()
+  context.commit(types.UPDATE_TWEET_NAME, payload.list.full_name)
+  context.commit(types.CLEAR_TWEETS)
   client.get('lists/statuses', {list_id: payload.list.id, count: 500}, (error, data, response) => {
     if (!error) {
       context.commit(types.ADD_TWEETS, data.reverse())
-      context.commit(types.UPDATE_TWEET_NAME, payload.list.full_name)
     }
   })
 }

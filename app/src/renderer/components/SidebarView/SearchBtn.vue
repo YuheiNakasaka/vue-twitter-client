@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     toggleSearchBar () {
+      if (this.sidebar.isSearchbarOpen === false) this.$store.dispatch('closeAllBar')
       this.$store.dispatch('toggleSearchBar')
     },
     displaySearchTweets (item) {

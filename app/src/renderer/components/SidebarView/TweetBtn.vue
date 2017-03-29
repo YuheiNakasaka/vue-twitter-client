@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     toggleTweetForm () {
+      if (this.sidebar.isTweetbarOpen === false) this.$store.dispatch('closeAllBar')
       this.$store.dispatch('toggleTweetBar')
     }
   }

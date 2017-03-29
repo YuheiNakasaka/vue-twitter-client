@@ -17,6 +17,11 @@ const mutations = {
   [types.TOGGLE_LIST_BAR] () {
     state.isListbarOpen = !state.isListbarOpen
   },
+  [types.CLOSE_ALL_BAR] () {
+    state.isTweetbarOpen = false
+    state.isSearchbarOpen = false
+    state.isListbarOpen = false
+  },
   [types.UPDATE_FORM_TEXT] (state, text) {
     state.text = text
   },

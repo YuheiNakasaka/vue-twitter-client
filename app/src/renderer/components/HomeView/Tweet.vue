@@ -7,7 +7,7 @@
       </div>
       <div class="right">
         <div class="retweet-label">
-          <span><i class="fa fa-retweet" aria-hidden="true"></i>{{ tweet.user.screen_name }} retweeted</span>
+          <span><i class="fa fa-retweet" aria-hidden="true"></i>{{ tweet.user.name }} retweeted</span>
         </div>
         <div class="screen-names">
           <span class="name">{{ tweet.retweeted_status.user.name }}</span>
@@ -139,7 +139,7 @@
   .tweet {
     overflow: hidden;
     position: relative;
-    max-width: 320px;
+    max-width: 420px;
     height: 100%;
     padding: 10px;
     border-bottom: 1px solid #eee;
