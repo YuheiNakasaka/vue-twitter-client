@@ -32,7 +32,7 @@ export default class Application {
 
   openAuthenticationWindow () {
     let defaultUser = store.get('defaultUser')
-    if (defaultUser && defaultUser.tokens.accessToken && defaultUser.tokens.accessTokenSecret && defaultUser.tokens.consumerKey && defaultUser.tokens.consumerSecret) {
+    if (defaultUser && defaultUser.accessToken && defaultUser.accessTokenSecret && defaultUser.consumerKey && defaultUser.consumerSecret) {
       this.createWindow()
     } else {
       new AuthenticationWindow().on('authentication-succeeded', (res) => {
@@ -43,8 +43,6 @@ export default class Application {
           consumerKey: process.env.TWITTER_CONSUMER_KEY,
           consumerSecret: process.env.TWITTER_CONSUMER_SECRET
         })
-        console.log(res.user)
-        console.log(store.get('defaultUser'))
         this.createWindow()
       })
     }
