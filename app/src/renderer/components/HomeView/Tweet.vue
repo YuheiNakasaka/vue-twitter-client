@@ -1,7 +1,40 @@
 <template>
   <div class="container">
-    <div class="tweet">
-      <!-- {{ tweet }} -->
+    <div class="tweet" v-if="tweet.retweeted">
+      <!-- retweeted component -->
+      <div class="left">
+        <img class="user-image" :src="tweet.retweeted_status.user.profile_image_url"/>
+      </div>
+      <div class="right">
+        <div class="retweet-label">
+          <span><i class="fa fa-retweet" aria-hidden="true"></i>{{ tweet.user.screen_name }} retweeted</span>
+        </div>
+        <div class="screen-names">
+          <span class="name">{{ tweet.retweeted_status.user.name }}</span>
+          <span class="screen-name">@{{ tweet.retweeted_status.user.screen_name }}</span>
+          <span class="time">{{ relativeTime(tweet.retweeted_status.created_at) }}</span>
+        </div>
+        <div class="texts">
+          <tweet-body :tweet="tweet"></tweet-body>
+        </div>
+        <div class="meta">
+          <div class="replies btn">
+            <span @click="toggleReplyForm"><i class="fa fa-reply" aria-hidden="true"></i></span>
+          </div>
+          <div class="retweets btn">
+            <span @click="updateRT(tweet)" :class="{retweeted: tweet.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
+            <span :class="{retweeted: tweet.retweeted}">{{ tweet.retweet_count }}</span>
+          </div>
+          <div class="favorites btn">
+            <span @click="updateFav(tweet)" :class="{favorited: tweet.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
+            <span :class="{favorited: tweet.favorited}">{{ tweet.favorite_count }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tweet" v-else>
+      <!-- normal tweet component -->
       <div class="left">
         <img class="user-image" :src="tweet.user.profile_image_url"/>
       </div>
@@ -102,9 +135,11 @@
 
 <style lang="scss" scoped>
 .container {
+   border-right: 1px solid #eee;
   .tweet {
     overflow: hidden;
     position: relative;
+    max-width: 320px;
     height: 100%;
     padding: 10px;
     border-bottom: 1px solid #eee;
@@ -124,6 +159,15 @@
       width: 90%;
       height: 100%;
       padding-left: 10px;
+      .retweet-label {
+        font-size: 10px;
+        margin-bottom: 10px;
+        color: #999;
+        i {
+          margin-right: 5px;
+          color: #17bf63;
+        }
+      }
       .screen-names {
         font-size: 12px;
         .name {
@@ -162,40 +206,6 @@
             color: #e0245e;
           }
         }
-      }
-    }
-  }
-  .reply-form {
-    width: 100%;
-    clear: both;
-    padding: 5px;
-    background-color: #4174C0;
-    .input-text {
-      textarea {
-        width: 100%;
-        height: 100px;
-        padding: 5px;
-        font-size: 14px;
-        outline: none;
-      }
-    }
-    .btns {
-      text-align: right;
-      .total-words {
-        display: inline-block;
-        margin-right: 10px;
-        font-size: 13px;
-        color: #fff;
-      }
-      .submit {
-        display: inline-block;
-        width: 60px;
-        padding: 10px;
-        font-size: 13px;
-        color: #fff;
-        background-color: #7094AE;
-        opacity: 0.8;
-        text-align: center;
       }
     }
   }

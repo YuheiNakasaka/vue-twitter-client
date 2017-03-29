@@ -11,6 +11,9 @@ const mutations = {
   },
   [types.UPDATE_FORM_TEXT] (state, text) {
     state.text = text
+  },
+  [types.CLEAR_FORM_TEXT] (state) {
+    state.text = ''
   }
 }
 

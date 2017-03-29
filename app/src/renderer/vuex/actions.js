@@ -19,6 +19,10 @@ export const updateFormText = (context, payload) => {
   context.commit(types.UPDATE_FORM_TEXT, payload.text)
 }
 
+export const clearFormText = (context) => {
+  context.commit(types.CLEAR_FORM_TEXT)
+}
+
 export const postTweet = (context, payload) => {
   let client = getClient()
   return new Promise((resolve, reject) => {

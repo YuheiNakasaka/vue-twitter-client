@@ -37,7 +37,7 @@ export default {
     }
   },
   watch: {
-    tweet () {
+    'tweet_bar.text' () {
       let totalWord = 140 - this.tweet_bar.text.length
       if (totalWord < 140 && totalWord > 0) {
         this.tweetable = true
@@ -58,10 +58,12 @@ export default {
     postTweet () {
       if (this.tweetable === true) {
         this.tweeting = true
-        this.$store.dispatch('postTweet', {tweet: this.tweet}).then((res) => {
-          this.tweet = ''
+        this.$store.dispatch('postTweet', {tweet: this.tweet_bar.text}).then((res) => {
           this.tweeting = false
+          this.$store.dispatch('clearFormText')
           this.$emit('tweetToggle')
+        }).catch((e) => {
+          this.tweeting = false
         })
       }
     },
