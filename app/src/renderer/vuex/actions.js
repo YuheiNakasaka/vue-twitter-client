@@ -1,10 +1,9 @@
 import * as types from './mutation-types'
-import Twitter from 'twitter'
+import Twitter from 'twit'
 import Store from '../libraries/store'
 import { eventEmitter } from '../libraries/event-emitter'
 
 let client
-let homeStream
 
 function getStore () {
   return new Store({ configName: 'user-preferences' })
@@ -18,7 +17,7 @@ function getClient (accountType = 'defaultUser') {
     client = new Twitter({
       consumer_key: data.consumerKey,
       consumer_secret: data.consumerSecret,
-      access_token_key: data.accessToken,
+      access_token: data.accessToken,
       access_token_secret: data.accessTokenSecret
     })
   }
@@ -38,9 +37,8 @@ function getIdStr (payload) {
 }
 
 function resetStream () {
-  if (homeStream) {
-    homeStream.destroy()
-  }
+  eventEmitter.emit('resetStream')
+  eventEmitter.removeAllListeners()
 }
 
 export const toggleTweetBar = (context) => {
@@ -183,16 +181,21 @@ export const getHomeTweets = (context) => {
   })
 
   // second, start streaming
+  let stream
   eventEmitter.on('finishFetchHomeTimeline', () => {
-    client.stream('user', (stream) => {
-      homeStream = stream
-      stream.on('data', (tweet) => {
-        context.commit(types.ADD_TWEETS, [tweet])
-      })
-      stream.on('error', (e) => {
-        console.log(e)
-      })
+    stream = client.stream('user')
+    stream.on('tweet', (tweet) => {
+      console.log('home')
+      context.commit(types.ADD_TWEETS, [tweet])
     })
+    stream.on('error', (e) => {
+      console.log(e)
+    })
+  })
+
+  eventEmitter.on('resetStream', () => {
+    console.log('resetStream in home')
+    stream.stop()
   })
 }
 
@@ -208,16 +211,21 @@ export const getSearchTweets = (context, payload) => {
     }
   })
 
+  let stream
   eventEmitter.on('finishFetchSearchTweets', () => {
-    client.stream('statuses/filter', {track: payload.q}, (stream) => {
-      homeStream = stream
-      stream.on('data', (tweet) => {
-        context.commit(types.ADD_TWEETS, [tweet])
-      })
-      stream.on('error', (e) => {
-        console.log(e)
-      })
+    stream = client.stream('statuses/filter', {track: payload.q})
+    stream.on('tweet', (tweet) => {
+      console.log(payload.q)
+      context.commit(types.ADD_TWEETS, [tweet])
     })
+    stream.on('error', (e) => {
+      console.log(e)
+    })
+  })
+
+  eventEmitter.on('resetStream', () => {
+    console.log('resetStream in search')
+    stream.stop()
   })
 }
 
