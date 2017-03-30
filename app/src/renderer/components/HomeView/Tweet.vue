@@ -2,8 +2,9 @@
   <div class="container">
     <div class="tweet" v-if="tweet.retweeted_status">
       <!-- retweeted component -->
+      <profile :tweet="tweet.retweeted_status" v-show="user.profileOpen === tweet.retweeted_status.id"></profile>
       <div class="left">
-        <img class="user-image" :src="tweet.retweeted_status.user.profile_image_url"/>
+        <img class="user-image" :src="tweet.retweeted_status.user.profile_image_url" @click="toggleProfile(tweet)"/>
       </div>
       <div class="right">
         <div class="retweet-label">
@@ -35,8 +36,9 @@
 
     <div class="tweet" v-else>
       <!-- normal tweet component -->
+      <profile :tweet="tweet" v-show="user.profileOpen === tweet.id"></profile>
       <div class="left">
-        <img class="user-image" :src="tweet.user.profile_image_url"/>
+        <img class="user-image" :src="tweet.user.profile_image_url" @click="toggleProfile(tweet)"/>
       </div>
       <div class="right">
         <div class="screen-names">
@@ -66,17 +68,25 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import moment from 'moment'
   import TweetBody from './TweetBody'
+  import Profile from './Profile'
 
   export default {
     name: 'tweet',
     props: ['tweet'],
     components: {
-      TweetBody
+      TweetBody,
+      Profile
     },
     data () {
       return {}
+    },
+    computed: {
+      ...mapState([
+        'user'
+      ])
     },
     methods: {
       relativeTime (createdAt) {
@@ -121,6 +131,9 @@
       toggleReplyForm () {
         this.$store.dispatch('toggleTweetBar')
         this.$store.dispatch('updateFormText', {text: '@' + this.tweet.user.screen_name + ' '})
+      },
+      toggleProfile (tweet) {
+        this.$store.dispatch('toggleProfile', {tweet: tweet})
       }
     }
   }
@@ -132,7 +145,7 @@
   .tweet {
     overflow: hidden;
     position: relative;
-    max-width: 420px;
+    width: 100%;
     height: 100%;
     padding: 10px;
     border-bottom: 1px solid #eee;
@@ -154,7 +167,7 @@
       padding-left: 10px;
       .retweet-label {
         font-size: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         color: #999;
         i {
           margin-right: 5px;
@@ -186,7 +199,8 @@
         color: #999;
         .btn {
           display: inline-block;
-          width: 44px;
+          min-width: 44px;
+          text-align: center;
           font-size: 12px;
         }
         .retweets {

@@ -71,6 +71,14 @@ export const initUser = (context) => {
   context.commit(types.INIT_USER, store.data.defaultUser.user)
 }
 
+export const toggleProfile = (context, payload) => {
+  if (hasRetweetedStatus(payload)) {
+    context.commit(types.TOGGLE_PROFILE, payload.tweet.retweeted_status)
+  } else {
+    context.commit(types.TOGGLE_PROFILE, payload.tweet)
+  }
+}
+
 export const postTweet = (context, payload) => {
   let client = getClient()
   return new Promise((resolve, reject) => {
