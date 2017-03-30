@@ -233,19 +233,26 @@ export const getListTweets = (context, payload) => {
   resetFeedFetcher()
   context.commit(types.UPDATE_TWEET_NAME, payload.list.full_name)
   context.commit(types.CLEAR_TWEETS)
+
   client.get('lists/statuses', {list_id: payload.list.id, count: 500}, (error, data, response) => {
     if (!error) {
-      context.commit(types.ADD_TWEETS, data.reverse())
-      eventEmitter.emit('finishFetchListTweetsFirst')
+      let tweets = data.reverse()
+      context.commit(types.ADD_TWEETS, tweets)
+      eventEmitter.emit('finishFetchListTweetsFirst', tweets[tweets.length - 1])
     }
   })
 
   let timerOfList
-  eventEmitter.on('finishFetchListTweetsFirst', () => {
+  eventEmitter.on('finishFetchListTweetsFirst', (tweet) => {
+    let latestTweet = tweet
     timerOfList = setInterval(() => {
-      client.get('lists/statuses', {list_id: payload.list.id, count: 100}, (error, data, response) => {
+      client.get('lists/statuses', {list_id: payload.list.id, since_id: latestTweet.id_str, count: 10}, (error, data, response) => {
         if (!error) {
-          context.commit(types.ADD_TWEETS, data.reverse())
+          if (data.length > 0) {
+            let tweets = data.reverse()
+            context.commit(types.ADD_TWEETS, tweets)
+            latestTweet = tweets[tweets.length - 1]
+          }
         }
       })
     }, 10000)

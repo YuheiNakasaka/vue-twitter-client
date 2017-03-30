@@ -57,6 +57,7 @@
 }
 #mainarea {
   width: 100%;
+  max-width: 500px;
   margin-left: 315px;
 }
 #mainarea.open {
