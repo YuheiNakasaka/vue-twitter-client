@@ -1,6 +1,7 @@
 import * as types from './mutation-types'
 import Twitter from 'twitter'
 import Store from '../libraries/store'
+import { eventEmitter } from '../libraries/event-emitter'
 
 let client
 let homeStream
@@ -170,23 +171,27 @@ export const deleteFav = (context, payload) => {
 
 export const getHomeTweets = (context) => {
   let client = getClient()
-  // let params = {screen_name: 'razokulover'}
-  // client.get('statuses/user_timeline', params, (error, tweets, response) => {
-  //   if (!error) {
-  //     context.commit(types.ADD_TWEETS, tweets)
-  //   }
-  // })
   resetStream()
   context.commit(types.UPDATE_TWEET_NAME, 'HOME')
   context.commit(types.CLEAR_TWEETS)
-  client.stream('user', (stream) => {
-    homeStream = stream
-    stream.on('data', (tweet) => {
-      context.commit(types.ADD_TWEETS, [tweet])
-    })
+  // first, get tweets with rest api
+  client.get('statuses/home_timeline', {count: 20}, (error, data, response) => {
+    if (!error) {
+      context.commit(types.ADD_TWEETS, data.reverse())
+      eventEmitter.emit('finishFetchHomeTimeline')
+    }
+  })
 
-    stream.on('error', (e) => {
-      console.log(e)
+  // second, start streaming
+  eventEmitter.on('finishFetchHomeTimeline', () => {
+    client.stream('user', (stream) => {
+      homeStream = stream
+      stream.on('data', (tweet) => {
+        context.commit(types.ADD_TWEETS, [tweet])
+      })
+      stream.on('error', (e) => {
+        console.log(e)
+      })
     })
   })
 }
@@ -199,7 +204,20 @@ export const getSearchTweets = (context, payload) => {
   client.get('search/tweets', {q: payload.q, count: 100}, (error, data, response) => {
     if (!error) {
       context.commit(types.ADD_TWEETS, data.statuses.reverse())
+      eventEmitter.emit('finishFetchSearchTweets')
     }
+  })
+
+  eventEmitter.on('finishFetchSearchTweets', () => {
+    client.stream('statuses/filter', {track: payload.q}, (stream) => {
+      homeStream = stream
+      stream.on('data', (tweet) => {
+        context.commit(types.ADD_TWEETS, [tweet])
+      })
+      stream.on('error', (e) => {
+        console.log(e)
+      })
+    })
   })
 }
 

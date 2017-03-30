@@ -92,7 +92,6 @@
         return 'background-image: url("' + this.bkImgUrl(tweet) + '"); background-color: #' + tweet.user.profile_background_color + ';background-size: cover; background-position: center; height: 250px; width: 100%;'
       },
       closeProfile () {
-        console.log(1)
         this.$store.dispatch('closeProfile')
       }
     }
