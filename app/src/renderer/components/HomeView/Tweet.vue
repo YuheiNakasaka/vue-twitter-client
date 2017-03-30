@@ -11,7 +11,7 @@
           <span><i class="fa fa-retweet" aria-hidden="true"></i>{{ tweet.user.name }} retweeted</span>
         </div>
         <div class="screen-names">
-          <span class="name">{{ tweet.retweeted_status.user.name }}</span>
+          <span class="name" @click="toggleProfile(tweet)">{{ tweet.retweeted_status.user.name }}</span>
           <span class="screen-name">@{{ tweet.retweeted_status.user.screen_name }}</span>
           <span class="time">{{ relativeTime(tweet.retweeted_status.created_at) }}</span>
         </div>
@@ -42,7 +42,7 @@
       </div>
       <div class="right">
         <div class="screen-names">
-          <span class="name">{{ tweet.user.name }}</span>
+          <span class="name" @click="toggleProfile(tweet)">{{ tweet.user.name }}</span>
           <span class="screen-name">@{{ tweet.user.screen_name }}</span>
           <span class="time">{{ relativeTime(tweet.created_at) }}</span>
         </div>
@@ -158,6 +158,7 @@
         width: 36px;
         height: 36px;
         border-radius: 4px;
+        cursor: pointer;
       }
     }
     .right {
@@ -178,6 +179,7 @@
         font-size: 12px;
         .name {
           font-weight: bold;
+          cursor: pointer;
         }
         .screen-name {
           margin-right: 10px;
@@ -202,6 +204,7 @@
           min-width: 44px;
           text-align: center;
           font-size: 12px;
+          cursor: pointer;
         }
         .retweets {
           .retweeted {

@@ -1,6 +1,7 @@
 <template>
   <div class="profile">
-    <div class="overlay"></div>
+    <!-- {{ tweet }} -->
+    <div class="overlay" @click="closeProfile()"></div>
     <div class="profile-main">
       <div class="box">
         <div class="main">
@@ -12,7 +13,9 @@
             <div class="bk-img" :style="bkImgStyle(tweet)"></div>
             <div class="icon">
               <span>
-                <img :src="tweet.user.profile_image_url"/>
+                <a @click="openInOsBrowser('https://twitter.com/' + tweet.user.screen_name)">
+                  <img :src="tweet.user.profile_image_url"/>
+                </a>
               </span>
             </div>
             <div class="name">
@@ -86,9 +89,10 @@
         }
       },
       bkImgStyle (tweet) {
-        return 'background-image: url("' + this.bkImgUrl(tweet) + '"); background-color: #' + tweet.user.profile_background_color + ';background-size: cover; background-position: center; height: 230px; width: 100%;'
+        return 'background-image: url("' + this.bkImgUrl(tweet) + '"); background-color: #' + tweet.user.profile_background_color + ';background-size: cover; background-position: center; height: 250px; width: 100%;'
       },
       closeProfile () {
+        console.log(1)
         this.$store.dispatch('closeProfile')
       }
     }
@@ -114,7 +118,7 @@
   left: 50%;
   display: block;
   width: 450px;
-  height: 280px;
+  height: 300px;
   margin: -150px 0 0 -200px;
   border-radius: 4px;
   z-index: 2001;
@@ -122,7 +126,7 @@
   .box {
     .main {
       width: 100%;
-      height: 230px;
+      height: 250px;
       padding: 0 10px;
       position: relative;
       z-index: 1;
@@ -137,6 +141,7 @@
         right: 0;
         margin-top: -20px;
         margin-right: -20px;
+        cursor: pointer;
         i {
           font-size: 20px;
         }
@@ -167,12 +172,15 @@
       .icon {
         padding: 15px 0;
         text-align: center;
-        img {
-          width: 55px;
-          height: 55px;
-          padding: 1px;
-          border-radius: 4px;
-          background-color: #353535;
+        a {
+          cursor: pointer;
+          img {
+            width: 55px;
+            height: 55px;
+            padding: 1px;
+            border-radius: 4px;
+            background-color: #eee;
+          }
         }
       }
       .name {
@@ -201,6 +209,7 @@
         .url {
           margin-left: 10px;
           a {
+            cursor: pointer;
             color: #fff;
           }
         }

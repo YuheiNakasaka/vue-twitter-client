@@ -42,6 +42,7 @@ export default {
       margin: 5px;
       text-align: center;
       border-radius: 4px;
+      cursor: pointer;
       i {
         line-height: 50px;
         font-size: 32px;

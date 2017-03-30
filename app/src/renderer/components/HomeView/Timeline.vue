@@ -39,6 +39,7 @@
   width: 100%;
   min-width: 420px;
   .tweets-header {
+    width: 100%;
     height: 40px;
     line-height: 40px;
     padding-left: 10px;

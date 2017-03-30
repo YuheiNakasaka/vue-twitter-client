@@ -43,6 +43,7 @@ export default {
       text-align: center;
       border-radius: 4px;
       background-color: #4174C0;
+      cursor: pointer;
       i {
         line-height: 50px;
         font-size: 32px;

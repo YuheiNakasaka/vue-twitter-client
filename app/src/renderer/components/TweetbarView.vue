@@ -94,6 +94,7 @@ export default {
       top: 15px;
       right: 13px;
       span {
+        cursor: pointer;
         i {
           font-size: 24px;
           color: #fff;
@@ -148,6 +149,7 @@ export default {
       .submit.active {
         background-color: #569CFF;
         opacity: 1;
+        cursor: pointer;
       }
     }
   }

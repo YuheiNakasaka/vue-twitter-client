@@ -56,6 +56,7 @@
   background-color: #4174C0;
 }
 #mainarea {
+  width: 100%;
   margin-left: 315px;
 }
 #mainarea.open {
