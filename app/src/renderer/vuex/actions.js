@@ -185,7 +185,6 @@ export const getHomeTweets = (context) => {
   eventEmitter.on('finishFetchHomeTimeline', () => {
     stream = client.stream('user')
     stream.on('tweet', (tweet) => {
-      console.log('home')
       context.commit(types.ADD_TWEETS, [tweet])
     })
     stream.on('error', (e) => {
@@ -194,7 +193,6 @@ export const getHomeTweets = (context) => {
   })
 
   eventEmitter.on('resetStream', () => {
-    console.log('resetStream in home')
     stream.stop()
   })
 }
@@ -215,7 +213,6 @@ export const getSearchTweets = (context, payload) => {
   eventEmitter.on('finishFetchSearchTweets', () => {
     stream = client.stream('statuses/filter', {track: payload.q})
     stream.on('tweet', (tweet) => {
-      console.log(payload.q)
       context.commit(types.ADD_TWEETS, [tweet])
     })
     stream.on('error', (e) => {
@@ -224,7 +221,6 @@ export const getSearchTweets = (context, payload) => {
   })
 
   eventEmitter.on('resetStream', () => {
-    console.log('resetStream in search')
     stream.stop()
   })
 }
@@ -237,7 +233,37 @@ export const getListTweets = (context, payload) => {
   client.get('lists/statuses', {list_id: payload.list.id, count: 500}, (error, data, response) => {
     if (!error) {
       context.commit(types.ADD_TWEETS, data.reverse())
+      eventEmitter.emit('finishFetchListTweets')
     }
+  })
+
+  let userIds
+  eventEmitter.on('finishFetchListTweets', () => {
+    client.get('lists/members', {list_id: payload.list.id, count: 5000}, (error, data, response) => {
+      if (!error) {
+        userIds = data.users.map((user) => user.id).join(',')
+        console.log(userIds)
+        eventEmitter.emit('finishFetchListMembers')
+      }
+    })
+  })
+
+  let stream
+  eventEmitter.on('finishFetchListMembers', () => {
+    stream = client.stream('statuses/filter', {follow: userIds})
+    stream.on('tweet', (tweet) => {
+      context.commit(types.ADD_TWEETS, [tweet])
+    })
+    stream.on('error', (e) => {
+      console.log(e)
+    })
+    stream.on('message', (msg) => {
+      console.log(msg)
+    })
+  })
+
+  eventEmitter.on('resetStream', () => {
+    stream.stop()
   })
 }
 
