@@ -36,8 +36,11 @@ function getIdStr (payload) {
   }
 }
 
-function resetStream () {
+// To switch contents by only one feed,
+// need to reset stream of twitter, pooling timer and eventEmitters
+function resetFeedFetcher () {
   eventEmitter.emit('resetStream')
+  eventEmitter.emit('stopTimerOfList')
   eventEmitter.removeAllListeners()
 }
 
@@ -169,7 +172,7 @@ export const deleteFav = (context, payload) => {
 
 export const getHomeTweets = (context) => {
   let client = getClient()
-  resetStream()
+  resetFeedFetcher()
   context.commit(types.UPDATE_TWEET_NAME, 'HOME')
   context.commit(types.CLEAR_TWEETS)
   // first, get tweets with rest api
@@ -199,7 +202,7 @@ export const getHomeTweets = (context) => {
 
 export const getSearchTweets = (context, payload) => {
   let client = getClient()
-  resetStream()
+  resetFeedFetcher()
   context.commit(types.UPDATE_TWEET_NAME, 'Search: ' + payload.q)
   context.commit(types.CLEAR_TWEETS)
   client.get('search/tweets', {q: payload.q, count: 100}, (error, data, response) => {
@@ -227,43 +230,29 @@ export const getSearchTweets = (context, payload) => {
 
 export const getListTweets = (context, payload) => {
   let client = getClient()
-  resetStream()
+  resetFeedFetcher()
   context.commit(types.UPDATE_TWEET_NAME, payload.list.full_name)
   context.commit(types.CLEAR_TWEETS)
   client.get('lists/statuses', {list_id: payload.list.id, count: 500}, (error, data, response) => {
     if (!error) {
       context.commit(types.ADD_TWEETS, data.reverse())
-      eventEmitter.emit('finishFetchListTweets')
+      eventEmitter.emit('finishFetchListTweetsFirst')
     }
   })
 
-  let userIds
-  eventEmitter.on('finishFetchListTweets', () => {
-    client.get('lists/members', {list_id: payload.list.id, count: 5000}, (error, data, response) => {
-      if (!error) {
-        userIds = data.users.map((user) => user.id).join(',')
-        console.log(userIds)
-        eventEmitter.emit('finishFetchListMembers')
-      }
-    })
+  let timerOfList
+  eventEmitter.on('finishFetchListTweetsFirst', () => {
+    timerOfList = setInterval(() => {
+      client.get('lists/statuses', {list_id: payload.list.id, count: 100}, (error, data, response) => {
+        if (!error) {
+          context.commit(types.ADD_TWEETS, data.reverse())
+        }
+      })
+    }, 10000)
   })
 
-  let stream
-  eventEmitter.on('finishFetchListMembers', () => {
-    stream = client.stream('statuses/filter', {follow: userIds})
-    stream.on('tweet', (tweet) => {
-      context.commit(types.ADD_TWEETS, [tweet])
-    })
-    stream.on('error', (e) => {
-      console.log(e)
-    })
-    stream.on('message', (msg) => {
-      console.log(msg)
-    })
-  })
-
-  eventEmitter.on('resetStream', () => {
-    stream.stop()
+  eventEmitter.on('stopTimerOfList', () => {
+    clearTimeout(timerOfList)
   })
 }
 
