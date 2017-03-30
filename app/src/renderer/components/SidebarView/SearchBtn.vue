@@ -10,7 +10,7 @@
     <div class="search-container" v-show="sidebar.isSearchbarOpen">
       <div class="arrow-left"></div>
       <div class="inner">
-        <input v-model="query"/>
+        <input v-model="query" @keydown.enter="displaySearchTweets"/>
       </div>
     </div>
   </div>
@@ -37,7 +37,10 @@ export default {
       this.$store.dispatch('toggleSearchBar')
     },
     displaySearchTweets (item) {
-      this.$store.dispatch('getSearchTweets', {q: this.query})
+      this.$store.dispatch('getSearchTweets', {q: this.query}).then(() => {
+        this.query = ''
+        this.$store.dispatch('toggleSearchBar')
+      })
     }
   }
 }
@@ -82,6 +85,8 @@ export default {
       input {
         width: 300px;
         height: 30px;
+        padding: 0 10px;
+        font-size: 14px;
         border: 1px solid #eee;
       }
     }

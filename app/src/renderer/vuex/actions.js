@@ -152,7 +152,15 @@ export const getHomeTweets = (context) => {
 }
 
 export const getSearchTweets = (context, payload) => {
-  console.log('search', payload.q)
+  let client = getClient()
+  resetStream()
+  context.commit(types.UPDATE_TWEET_NAME, 'Search: ' + payload.q)
+  context.commit(types.CLEAR_TWEETS)
+  client.get('search/tweets', {q: payload.q, count: 100}, (error, data, response) => {
+    if (!error) {
+      context.commit(types.ADD_TWEETS, data.statuses.reverse())
+    }
+  })
 }
 
 export const getListTweets = (context, payload) => {
