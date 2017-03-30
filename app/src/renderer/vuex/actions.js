@@ -79,6 +79,10 @@ export const toggleProfile = (context, payload) => {
   }
 }
 
+export const closeProfile = (context) => {
+  context.commit(types.CLOSE_PROFILE)
+}
+
 export const postTweet = (context, payload) => {
   let client = getClient()
   return new Promise((resolve, reject) => {

@@ -1,11 +1,13 @@
 <template>
   <div class="profile">
-    {{ tweet }}
     <div class="overlay"></div>
     <div class="profile-main">
       <div class="box">
         <div class="main">
           <div class="inner">
+            <div class="close">
+              <span @click="closeProfile()"><i class="fa fa-times"></i></span>
+            </div>
             <div class="overlay"></div>
             <div class="bk-img" :style="bkImgStyle(tweet)"></div>
             <div class="icon">
@@ -85,6 +87,9 @@
       },
       bkImgStyle (tweet) {
         return 'background-image: url("' + this.bkImgUrl(tweet) + '"); background-color: #' + tweet.user.profile_background_color + ';background-size: cover; background-position: center; height: 230px; width: 100%;'
+      },
+      closeProfile () {
+        this.$store.dispatch('closeProfile')
       }
     }
   }
@@ -126,6 +131,15 @@
         z-index: 2;
         width: 100%;
         color: #fff;
+      }
+      .close {
+        position: absolute;
+        right: 0;
+        margin-top: -20px;
+        margin-right: -20px;
+        i {
+          font-size: 20px;
+        }
       }
       .overlay {
         position: absolute;
@@ -176,7 +190,7 @@
         line-height: 1.4;
         margin-bottom: 10px;
         text-align: center;
-        font-size: 11px;
+        font-size: 12px;
         span {
           text-align: left;
         }

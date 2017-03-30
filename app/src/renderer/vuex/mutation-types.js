@@ -9,6 +9,7 @@ export const CLEAR_FORM_TEXT = 'CLEAR_FORM_TEXT'
 // user
 export const INIT_USER = 'INIT_USER'
 export const TOGGLE_PROFILE = 'TOGGLE_PROFILE'
+export const CLOSE_PROFILE = 'CLOSE_PROFILE'
 
 // lists
 export const SET_LISTS = 'SET_LISTS'

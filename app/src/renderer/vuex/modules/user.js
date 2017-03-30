@@ -11,6 +11,9 @@ const mutations = {
   },
   [types.TOGGLE_PROFILE] (state, tweet) {
     state.profileOpen = tweet.id
+  },
+  [types.CLOSE_PROFILE] (state) {
+    state.profileOpen = ''
   }
 }
 
