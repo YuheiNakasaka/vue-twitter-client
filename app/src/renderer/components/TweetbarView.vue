@@ -71,7 +71,7 @@ export default {
         this.$store.dispatch('postTweet', {tweet: this.sidebar.text}).then((res) => {
           this.tweeting = false
           this.$store.dispatch('clearFormText')
-          this.$emit('tweetToggle')
+          this.$store.dispatch('toggleTweetBar')
         }).catch((e) => {
           this.tweeting = false
         })

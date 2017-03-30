@@ -50,15 +50,15 @@
           <tweet-body :tweet="tweet"></tweet-body>
         </div>
         <div class="meta">
-          <div class="replies btn">
-            <span @click="toggleReplyForm"><i class="fa fa-reply" aria-hidden="true"></i></span>
+          <div class="replies btn" @click="toggleReplyForm">
+            <span><i class="fa fa-reply" aria-hidden="true"></i></span>
           </div>
-          <div class="retweets btn">
-            <span @click="updateRT(tweet)" :class="{retweeted: tweet.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
+          <div class="retweets btn" @click="updateRT(tweet)">
+            <span :class="{retweeted: tweet.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
             <span :class="{retweeted: tweet.retweeted}">{{ tweet.retweet_count }}</span>
           </div>
-          <div class="favorites btn">
-            <span @click="updateFav(tweet)" :class="{favorited: tweet.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
+          <div class="favorites btn" @click="updateFav(tweet)">
+            <span :class="{favorited: tweet.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
             <span :class="{favorited: tweet.favorited}">{{ tweet.favorite_count }}</span>
           </div>
         </div>
