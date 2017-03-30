@@ -29,10 +29,22 @@ const mutations = {
       tweet.retweeted = true
     }
   },
+  [types.INCREASE_RT_COUNT_OF_RT] (state, tweet) {
+    if (tweet.retweeted_status.retweeted === false) {
+      state.items[state.items.indexOf(tweet)].retweeted_status.retweet_count++
+      tweet.retweeted_status.retweeted = true
+    }
+  },
   [types.DECREASE_RT_COUNT] (state, tweet) {
     if (tweet.retweeted === true) {
       state.items[state.items.indexOf(tweet)].retweet_count--
       tweet.retweeted = false
+    }
+  },
+  [types.DECREASE_RT_COUNT_OF_RT] (state, tweet) {
+    if (tweet.retweeted_status.retweeted === true) {
+      state.items[state.items.indexOf(tweet)].retweeted_status.retweet_count--
+      tweet.retweeted_status.retweeted = false
     }
   },
   [types.INCREASE_FAV_COUNT] (state, tweet) {
@@ -41,10 +53,22 @@ const mutations = {
       tweet.favorited = true
     }
   },
+  [types.INCREASE_FAV_COUNT_OF_RT] (state, tweet) {
+    if (tweet.retweeted_status.favorited === false) {
+      state.items[state.items.indexOf(tweet)].retweeted_status.favorite_count++
+      tweet.retweeted_status.favorited = true
+    }
+  },
   [types.DECREASE_FAV_COUNT] (state, tweet) {
     if (tweet.favorited === true) {
       state.items[state.items.indexOf(tweet)].favorite_count--
       tweet.favorited = false
+    }
+  },
+  [types.DECREASE_FAV_COUNT_OF_RT] (state, tweet) {
+    if (tweet.retweeted_status.favorited === true) {
+      state.items[state.items.indexOf(tweet)].retweeted_status.favorite_count--
+      tweet.retweeted_status.favorited = false
     }
   }
 }

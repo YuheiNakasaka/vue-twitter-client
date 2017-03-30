@@ -22,11 +22,11 @@
             <span @click="toggleReplyForm"><i class="fa fa-reply" aria-hidden="true"></i></span>
           </div>
           <div class="retweets btn">
-            <span @click="updateRT(tweet.retweeted_status)" :class="{retweeted: tweet.retweeted_status.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
+            <span @click="updateRT(tweet)" :class="{retweeted: tweet.retweeted_status.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
             <span :class="{retweeted: tweet.retweeted_status.retweeted}">{{ tweet.retweeted_status.retweet_count }}</span>
           </div>
           <div class="favorites btn">
-            <span @click="updateFav(tweet.retweeted_status)" :class="{favorited: tweet.retweeted_status.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
+            <span @click="updateFav(tweet)" :class="{favorited: tweet.retweeted_status.favorited}"><i class="fa fa-heart" aria-hidden="true"></i></span>
             <span :class="{favorited: tweet.retweeted_status.favorited}">{{ tweet.retweeted_status.favorite_count }}</span>
           </div>
         </div>
@@ -76,12 +76,7 @@
       TweetBody
     },
     data () {
-      return {
-        tweetable: false,
-        retweeted: false,
-        favorited: false,
-        tweeting: false
-      }
+      return {}
     },
     methods: {
       relativeTime (createdAt) {
@@ -108,21 +103,19 @@
         return moment(new Date(createdAt)).locale('en-short').fromNow()
       },
       updateRT (tweet) {
-        if (this.retweeted === false) {
+        let isRetweeted = tweet.retweeted_status !== undefined ? tweet.retweeted_status.retweeted : tweet.retweeted
+        if (isRetweeted === false) {
           this.$store.dispatch('postRT', {tweet: tweet})
-          this.retweeted = true
-        } else {
+        } else if (isRetweeted === true) {
           this.$store.dispatch('deleteRT', {tweet: tweet})
-          this.retweeted = false
         }
       },
       updateFav (tweet) {
-        if (this.favorited === false) {
+        let isFavorited = tweet.retweeted_status !== undefined ? tweet.retweeted_status.favorited : tweet.favorited
+        if (isFavorited === false) {
           this.$store.dispatch('postFav', {tweet: tweet})
-          this.favorited = true
-        } else {
+        } else if (isFavorited === true) {
           this.$store.dispatch('deleteFav', {tweet: tweet})
-          this.favorited = false
         }
       },
       toggleReplyForm () {

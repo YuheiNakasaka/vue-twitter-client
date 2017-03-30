@@ -67,7 +67,7 @@ export default {
       shell.openExternal(url)
     },
     getText () {
-      return this.tweet.retweeted === true ? this.tweet.retweeted_status.text : this.tweet.text
+      return this.tweet.text
     },
     getImageEntities () {
       if (this.tweet.extended_entities && this.tweet.extended_entities.media) {
