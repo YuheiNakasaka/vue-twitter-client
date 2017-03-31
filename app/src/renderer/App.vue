@@ -11,6 +11,7 @@
     store: store,
     created () {
       this.$store.dispatch('initUser')
+      this.$store.dispatch('getNotifications')
     }
   }
 </script>

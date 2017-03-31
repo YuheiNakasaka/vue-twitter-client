@@ -52,6 +52,11 @@ export const toggleSearchBar = (context) => {
   context.commit(types.TOGGLE_SEARCH_BAR)
 }
 
+export const toggleNotificationBar = (context) => {
+  context.commit(types.TOGGLE_NOTIFICATION_BAR)
+  context.commit(types.CLEAR_NOTIFICATION_COUNT)
+}
+
 export const toggleListBar = (context) => {
   context.commit(types.TOGGLE_LIST_BAR)
 }
@@ -303,9 +308,6 @@ export const getMyList = (context) => {
 
 export const getNotifications = (context) => {
   let client = getClient()
-  resetFeedFetcher()
-  context.commit(types.UPDATE_TWEET_NAME, 'Notification')
-  context.commit(types.CLEAR_TWEETS)
 
   // start streaming
   // notification is not stopped
@@ -319,8 +321,8 @@ export const getNotifications = (context) => {
   stream.on('tweet', (data) => {
     let screenName = context.state.user.user.screen_name
     let rexp = new RegExp('@' + screenName)
-    if (data.text.match(rexp)) {
-      context.commit(types.SET_MENTION_FOR_NOTIFICATION, data.source)
+    if (data.text.match(rexp) && !data.retweeted_status && data.user.id_str !== context.state.user.user.id_str) {
+      context.commit(types.SET_MENTION_FOR_NOTIFICATION, data)
     }
   })
 
@@ -333,6 +335,7 @@ export const getNotifications = (context) => {
     let sinceId
     setInterval(() => {
       client.get('statuses/retweets_of_me', {count: 2, since_id: sinceId}, (error, data, response) => {
+        console.log('statuses/retweets_of_me')
         if (error) return false
         data.map((dt) => {
           sinceId = data[0].id_str
@@ -344,6 +347,7 @@ export const getNotifications = (context) => {
     // get users of retweets
     eventEmitter.on('finishGetRetweetOfMe', ({ retweets }) => {
       retweets.forEach((retweet, i) => {
+        console.log('statuses/retweets_of_me')
         client.get('statuses/retweets/' + retweet.id_str, {count: 100}, (error, data, response) => {
           if (error) return false
           if (data.length === 0) return false
@@ -354,7 +358,8 @@ export const getNotifications = (context) => {
 
     // publish retweets notification
     eventEmitter.on('finishGetRetweeters', ({ retweet, retweeters }) => {
-      context.commit(types.SET_RT_FOR_NOTIFICATION, retweet, retweeters)
+      console.log(retweet)
+      context.commit(types.SET_RT_FOR_NOTIFICATION, {retweet: retweet, retweeters: retweeters})
     })
   }
 }
