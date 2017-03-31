@@ -7,6 +7,11 @@
         </span>
       </div>
     </div>
+    <div class="notification-container">
+      <div class="inner">
+        {{ notifications.items }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,7 +25,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'sidebar'
+      'sidebar',
+      'notifications'
     ])
   },
   methods: {
@@ -49,6 +55,9 @@ export default {
         color: #fff;
       }
     }
+  }
+  .notification-container {
+    position: absolute;
   }
 }
 </style>
