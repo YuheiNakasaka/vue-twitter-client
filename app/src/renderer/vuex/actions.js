@@ -300,3 +300,107 @@ export const getMyList = (context) => {
     }
   })
 }
+
+export const getNotifications = (context) => {
+  let client = getClient()
+  resetFeedFetcher()
+  context.commit(types.UPDATE_TWEET_NAME, 'Notification')
+  context.commit(types.CLEAR_TWEETS)
+  // // // get mention to me with rest api
+  // // client.get('statuses/mentions_timeline', {count: 10}, (error, data, response) => {
+  // //   if (!error) {
+  // //     console.log(data)
+  // //   }
+  // // })
+  //
+  // // get retweets of me
+  // client.get('statuses/retweets_of_me', {count: 1}, (error, data, response) => {
+  //   if (!error) {
+  //     console.log('finishGetRetweetOfMe')
+  //     eventEmitter.emit('finishGetRetweetOfMe', {retweets: data})
+  //   }
+  // })
+  //
+  // // get user ids of retweets of me
+  // eventEmitter.on('finishGetRetweetOfMe', ({ retweets }) => {
+  //   let retweetIds = retweets.map((retweet) => {return retweet.id_str}).join(',')
+  //   client.get('statuses/retweeters/ids', {id: retweetIds}, (error, data, response) => {
+  //     if (!error) {
+  //       console.log('finishGetRetweetersIds')
+  //       retweets.forEach((retweet, i) => {
+  //         retweets[i].retweeterIds = data.ids
+  //       })
+  //       eventEmitter.emit('finishGetRetweetersIds', {retweets: retweets})
+  //     }
+  //   })
+  // })
+  //
+  // // get user profiles of retweeters
+  // eventEmitter.on('finishGetRetweetersIds', ({ retweets }) => {
+  //   let userIds = retweets.map()
+  //   client.get('users/lookup', {user_id: userIds.join(',')}, (error, data, response) => {
+  //     if (!error) {
+  //       console.log('finishGetRetweeterUsers')
+  //       console.log(data)
+  //       // eventEmitter.emit('finishGetRetweetersIds', user_ids)
+  //     }
+  //   })
+  // })
+
+  // start streaming
+  // notification is not stopped
+  let stream = client.stream('user', {replies: 'all'})
+  stream.on('favorite', (data) => {
+    console.log('favorite')
+    console.log(data)
+  })
+  stream.on('follow', (data) => {
+    console.log('favorite')
+    console.log(data)
+  })
+  stream.on('tweet', (data) => {
+    console.log('tweet')
+    let screenName = context.state.user.user.screen_name
+    let rexp = new RegExp('@' + screenName)
+    if (data.text.match(rexp)) {
+      console.log('mention')
+      console.log(data)
+    }
+  })
+  // retweet is monitored with timer
+  let sinceId
+  // setInterval(() => {
+  // get retweets of my tweets
+  client.get('statuses/retweets_of_me', {count: 2, since_id: sinceId}, (error, data, response) => {
+    if (!error) {
+      data.filter((dt) => {
+        return dt.length > 0
+      }).map((dt) => {
+        sinceId = data[0].id_str
+        eventEmitter.emit('finishGetRetweetOfMe', {retweets: data})
+      })
+    }
+  })
+  // }, 30000)
+
+  // get users of retweets
+  eventEmitter.on('finishGetRetweetOfMe', ({ retweets }) => {
+    retweets.forEach((retweet, i) => {
+      client.get('statuses/retweets/' + retweet.id_str, {count: 100}, (error, data, response) => {
+        if (!error) {
+          data.filter((dt) => {
+            return dt.length > 0
+          }).map((dt) => {
+            retweet.retweeters = data
+            eventEmitter.emit('finishGetRetweeters', {retweet: retweet})
+          })
+        }
+      })
+    })
+  })
+
+  // publish retweets notification
+  eventEmitter.on('finishGetRetweeters', ({ retweet }) => {
+    console.log(retweet)
+  })
+}

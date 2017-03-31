@@ -4,6 +4,7 @@
       <tweet-btn></tweet-btn>
       <search-btn></search-btn>
       <home-btn></home-btn>
+      <notification-btn></notification-btn>
       <list-btn></list-btn>
     </div>
   </div>
@@ -11,16 +12,18 @@
 
 <script>
 import TweetBtn from './SidebarView/TweetBtn'
-import HomeBtn from './SidebarView/HomeBtn'
 import SearchBtn from './SidebarView/SearchBtn'
+import HomeBtn from './SidebarView/HomeBtn'
+import NotificationBtn from './SidebarView/NotificationBtn'
 import ListBtn from './SidebarView/ListBtn'
 
 export default {
   name: 'sidebar-view',
   components: {
     TweetBtn,
-    HomeBtn,
     SearchBtn,
+    HomeBtn,
+    NotificationBtn,
     ListBtn
   }
 }
