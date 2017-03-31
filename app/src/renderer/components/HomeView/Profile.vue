@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <!-- {{ tweet }} -->
+    <!-- {{ tweet.user }} -->
     <div class="overlay" @click="closeProfile()"></div>
     <div class="profile-main">
       <div class="box">
@@ -54,6 +54,12 @@
               <span class="value">{{ tweet.user.listed_count }}</span>
             </div>
             <div class="btns column">
+              <span class="btn following" @click="unfollow(tweet)" v-if="tweet.user.following">
+                <span>Following</span>
+              </span>
+              <span class="btn follow" @click="follow(tweet)" v-else>
+                <span>Follow</span>
+              </span>
             </div>
           </div>
         </div>
@@ -70,7 +76,9 @@
     name: 'profile',
     props: ['tweet'],
     data () {
-      return {}
+      return {
+        nowProcessing: false
+      }
     },
     computed: {
       ...mapState([
@@ -93,6 +101,24 @@
       },
       closeProfile () {
         this.$store.dispatch('closeProfile')
+      },
+      follow (tweet) {
+        let vm = this
+        if (vm.nowProcessing === false) {
+          vm.nowProcessing = true
+          this.$store.dispatch('follow', {tweet: tweet}).then(() => {
+            vm.nowProcessing = false
+          })
+        }
+      },
+      unfollow (tweet) {
+        let vm = this
+        if (vm.nowProcessing === false) {
+          vm.nowProcessing = true
+          this.$store.dispatch('unfollow', {tweet: tweet}).then(() => {
+            vm.nowProcessing = false
+          })
+        }
       }
     }
   }
@@ -239,6 +265,29 @@
             font-weight: bold;
             font-size: 12px;
             color: #333;
+          }
+        }
+        .btns {
+          .btn {
+            width: 69px;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 4px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            display: block;
+            cursor: pointer;
+          }
+          .btn.follow {
+            border: 1px solid #DBDDDD;
+            color: #333;
+            background-color: #EDEFF0;
+          }
+          .btn.following {
+            color: #fff;
+            background-color: #4174C0;
           }
         }
       }

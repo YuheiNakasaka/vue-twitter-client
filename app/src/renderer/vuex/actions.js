@@ -73,6 +73,35 @@ export const initUser = (context) => {
   context.commit(types.INIT_USER, store.data.defaultUser.user)
 }
 
+export const follow = (context, payload) => {
+  let client = getClient()
+  return new Promise((resolve, reject) => {
+    client.post('friendships/create', {user_id: payload.tweet.user.id_str}, (error, tweet, response) => {
+      if (!error) {
+        context.commit(types.FOLLOW, payload.tweet)
+        resolve()
+      } else {
+        console.log(error)
+        reject()
+      }
+    })
+  })
+}
+
+export const unfollow = (context, payload) => {
+  let client = getClient()
+  return new Promise((resolve, reject) => {
+    client.post('friendships/destroy', {user_id: payload.tweet.user.id_str}, (error, tweet, response) => {
+      if (!error) {
+        context.commit(types.UNFOLLOW, payload.tweet)
+        resolve()
+      } else {
+        reject()
+      }
+    })
+  })
+}
+
 export const toggleProfile = (context, payload) => {
   if (hasRetweetedStatus(payload)) {
     context.commit(types.TOGGLE_PROFILE, payload.tweet.retweeted_status)

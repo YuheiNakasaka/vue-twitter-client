@@ -8,6 +8,8 @@ export const CLEAR_FORM_TEXT = 'CLEAR_FORM_TEXT'
 
 // user
 export const INIT_USER = 'INIT_USER'
+export const FOLLOW = 'FOLLOW'
+export const UNFOLLOW = 'UNFOLLOW'
 export const TOGGLE_PROFILE = 'TOGGLE_PROFILE'
 export const CLOSE_PROFILE = 'CLOSE_PROFILE'
 
