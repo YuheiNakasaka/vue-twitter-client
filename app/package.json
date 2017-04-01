@@ -13,6 +13,7 @@
     "twitter-text": "^1.14.3",
     "vue": "^2.1.10",
     "vue-electron": "^1.0.6",
+    "vue-lazyload": "^1.0.3",
     "vue-router": "^2.1.2",
     "vuex": "^2.1.1"
   },

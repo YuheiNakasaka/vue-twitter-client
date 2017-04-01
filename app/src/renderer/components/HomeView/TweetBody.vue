@@ -35,12 +35,14 @@
       <a v-for="imgEntity, i in getImageEntities()"
          :class="{multi: getImageEntities().length > 1}"
          @click="openInOsBrowser(imgEntity.url)">
-         <img :src="imgEntity.imgUrl"/>
+         <img v-lazy="imgEntity.imgUrl"/>
       </a>
       <a v-for="videoEntity, i in getVideoEntities()"
          :class="{multi: getVideoEntities().length > 1}"
          @click="openInOsBrowser(videoEntity.url)">
-         <video :src="videoEntity.imgUrl" loop autoplay muted/></video>
+        <lazy-component tag="div" >
+          <video :src="videoEntity.imgUrl" type="video/mp4" source controls loop autoplay muted/></video>
+        </lazy-component>
       </a>
     </div>
   </div>
