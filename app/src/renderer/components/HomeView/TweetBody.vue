@@ -10,7 +10,7 @@
       </a>
       <a class="tweet-hashtag"
          v-if="entity.hashtag"
-         @click="openInOsBrowser('https://twitter.com/#!/search?q=%23' + entity.hashtag)">
+         @click="searchHashtag(entity.hashtag)">
          #{{ entity.hashtag }}
       </a>
       <a class="tweet-listslug"
@@ -112,6 +112,9 @@ export default {
       } else {
         return []
       }
+    },
+    searchHashtag (hashtag) {
+      this.$store.dispatch('getSearchTweets', {q: hashtag})
     }
   }
 }
@@ -120,6 +123,10 @@ export default {
 <style lang="scss"  scoped>
 .tweet-body {
   line-height: 1.4;
+  a {
+    display: inline-block;
+    cursor: pointer;
+  }
   .tweet-link {
     color: #4174C0;
   }
