@@ -6,6 +6,7 @@
       <home-btn></home-btn>
       <notification-btn></notification-btn>
       <list-btn></list-btn>
+      <setting-btn class="setting-btn"></setting-btn>
     </div>
   </div>
 </template>
@@ -16,6 +17,7 @@ import SearchBtn from './SidebarView/SearchBtn'
 import HomeBtn from './SidebarView/HomeBtn'
 import NotificationBtn from './SidebarView/NotificationBtn'
 import ListBtn from './SidebarView/ListBtn'
+import SettingBtn from './SidebarView/SettingBtn'
 
 export default {
   name: 'sidebar-view',
@@ -24,9 +26,15 @@ export default {
     SearchBtn,
     HomeBtn,
     NotificationBtn,
-    ListBtn
+    ListBtn,
+    SettingBtn
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.setting-btn {
+  position: fixed;
+  bottom: 10px;
+}
+</style>

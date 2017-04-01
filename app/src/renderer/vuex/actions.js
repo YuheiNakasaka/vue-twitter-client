@@ -61,6 +61,10 @@ export const toggleListBar = (context) => {
   context.commit(types.TOGGLE_LIST_BAR)
 }
 
+export const toggleSettingBar = (context) => {
+  context.commit(types.TOGGLE_SETTING_BAR)
+}
+
 export const closeAllBar = (context) => {
   context.commit(types.CLOSE_ALL_BAR)
 }

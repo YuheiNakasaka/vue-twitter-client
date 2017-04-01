@@ -5,6 +5,7 @@ const state = {
   isSearchbarOpen: false,
   isNotificationbarOpen: false,
   isListbarOpen: false,
+  isSettingbarOpen: false,
   text: ''
 }
 
@@ -21,11 +22,15 @@ const mutations = {
   [types.TOGGLE_LIST_BAR] () {
     state.isListbarOpen = !state.isListbarOpen
   },
+  [types.TOGGLE_SETTING_BAR] () {
+    state.isSettingbarOpen = !state.isSettingbarOpen
+  },
   [types.CLOSE_ALL_BAR] () {
     state.isTweetbarOpen = false
     state.isSearchbarOpen = false
     state.isNotificationbarOpen = false
     state.isListbarOpen = false
+    state.isSettingbarOpen = false
   },
   [types.UPDATE_FORM_TEXT] (state, text) {
     state.text = text
