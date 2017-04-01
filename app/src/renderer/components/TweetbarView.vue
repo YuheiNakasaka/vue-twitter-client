@@ -95,7 +95,7 @@ export default {
         this.tweeting = true
         this.$store.dispatch('postTweet', {tweet: this.sidebar.text, images: this.images}).then((res) => {
           this.tweeting = false
-          this.removeImage()
+          this.images = []
           this.$store.dispatch('clearFormText')
           this.$store.dispatch('toggleTweetBar')
         }).catch((e) => {

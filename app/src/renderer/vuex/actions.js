@@ -123,10 +123,6 @@ export const closeProfile = (context) => {
   context.commit(types.CLOSE_PROFILE)
 }
 
-export const uploadImage = (context) => {
-  let client = getClient()
-}
-
 export const postTweet = (context, payload) => {
   let client = getClient()
 
@@ -143,34 +139,39 @@ export const postTweet = (context, payload) => {
   })
 
   eventEmitter.on('uploadImage', (images) => {
-    let mediaIdStrings = []
     return new Promise((resolve, reject) => {
-      _loop(resolve, reject)
-    }).then((res) => {
-      console.log(res)
-      // eventEmitter.emit('postTextTweet', payload.tweet, mediaIdStrings)
-    })
-
-    function _loop (outResolve, outReject) {
-      return new Promise((resolve, reject) => {
-        let b64Image = images[mediaIdStrings.length]
-        b64Image = b64Image.replace(/^data:image\/.+;base64,/, '')
-        client.post('media/upload', {media_data: b64Image}, (error, data, response) => {
-          if (!error) {
-            mediaIdStrings.push(data.media_id_string)
-            resolve()
+      let outResolve = resolve
+      let mediaIdStrings = []
+      _loop()
+      function _loop () {
+        return new Promise((resolve, reject) => {
+          let b64Image = images[mediaIdStrings.length]
+          b64Image = b64Image.replace(/^data:image\/.+;base64,/, '')
+          client.post('media/upload', {media_data: b64Image}, (error, data, response) => {
+            if (!error) {
+              mediaIdStrings.push(data.media_id_string)
+              resolve()
+            } else {
+              mediaIdStrings.push(null)
+              reject()
+            }
+          })
+        }).then(() => {
+          if (images.length === mediaIdStrings.length) {
+            console.log('finish', mediaIdStrings.length)
+            outResolve(mediaIdStrings.filter((id) => {return id !== null}))
           } else {
-            reject()
+            console.log('yet', mediaIdStrings.length)
+            _loop()
           }
         })
-      }).then(() => {
-        if (images.length === mediaIdStrings.length) {
-          outResolve(mediaIdStrings)
-        } else {
-          _loop(outReject)
-        }
-      })
-    }
+      }
+    }).then((mediaIdStrings) => {
+      console.log(mediaIdStrings)
+      eventEmitter.emit('postTextTweet', payload.tweet, mediaIdStrings)
+    }).catch((e) => {
+      console.log('error: ', e)
+    })
   })
 
   if (payload.images.length > 0) {
