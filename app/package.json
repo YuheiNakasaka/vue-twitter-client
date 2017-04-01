@@ -1,7 +1,7 @@
 {
-  "name": "vue-twitter-client-app",
-  "version": "0.0.0",
-  "description": "An electron-vue project",
+  "name": "vue-twitter-client",
+  "version": "0.0.1",
+  "description": "Simple twitter client created with electron-vue",
   "main": "./dist/main.js",
   "dependencies": {
     "axios": "^0.15.3",
