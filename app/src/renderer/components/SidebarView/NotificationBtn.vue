@@ -5,7 +5,7 @@
         <span class="btn" @click="toggleNotifications">
           <i class="fa fa-bell" aria-hidden="true"></i>
         </span>
-        <span class="count" v-show="notifications.visibleNotificationCount > 0">{{ notifications.items.length }}</span>
+        <span class="count" v-show="notifications.visibleNotificationCount > 0">{{ notifications.visibleNotificationCount }}</span>
       </div>
     </div>
     <div class="notification-container" v-show="sidebar.isNotificationbarOpen">
@@ -40,10 +40,6 @@ export default {
     toggleNotifications () {
       if (this.sidebar.isNotificationbarOpen === false) this.$store.dispatch('closeAllBar')
       this.$store.dispatch('toggleNotificationBar')
-    },
-    displayHomeTweets (item) {
-      this.$store.dispatch('closeAllBar')
-      this.$store.dispatch('getNotifications')
     }
   }
 }

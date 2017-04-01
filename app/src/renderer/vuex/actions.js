@@ -343,7 +343,6 @@ export const getNotifications = (context) => {
     let sinceId
     setInterval(() => {
       client.get('statuses/retweets_of_me', {count: 2, since_id: sinceId}, (error, data, response) => {
-        console.log('statuses/retweets_of_me')
         if (error) return false
         data.map((dt) => {
           sinceId = data[0].id_str
@@ -355,7 +354,6 @@ export const getNotifications = (context) => {
     // get users of retweets
     eventEmitter.on('finishGetRetweetOfMe', ({ retweets }) => {
       retweets.forEach((retweet, i) => {
-        console.log('statuses/retweets_of_me')
         client.get('statuses/retweets/' + retweet.id_str, {count: 100}, (error, data, response) => {
           if (error) return false
           if (data.length === 0) return false
@@ -366,7 +364,6 @@ export const getNotifications = (context) => {
 
     // publish retweets notification
     eventEmitter.on('finishGetRetweeters', ({ retweet, retweeters }) => {
-      console.log(retweet)
       context.commit(types.SET_RT_FOR_NOTIFICATION, {retweet: retweet, retweeters: retweeters})
     })
   }
