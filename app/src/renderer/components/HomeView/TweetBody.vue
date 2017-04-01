@@ -145,11 +145,14 @@ export default {
   .tweet-imgs {
     width: 100%;
     overflow: hidden;
+    display: flex;
     a {
       float: left;
       width: 100%;
+      margin-top: 5px;
       img {
         width: 100%;
+        max-width: 500px;
       }
     }
     a.multi {
@@ -157,6 +160,7 @@ export default {
     }
     video {
       width: 100%;
+      max-width: 500px;
     }
   }
 }

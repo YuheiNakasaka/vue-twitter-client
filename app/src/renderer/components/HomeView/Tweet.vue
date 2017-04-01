@@ -145,7 +145,7 @@
   .tweet {
     overflow: hidden;
     position: relative;
-    max-width: 500px;
+    // max-width: 500px;
     height: 100%;
     padding: 10px;
     border-bottom: 1px solid #eee;

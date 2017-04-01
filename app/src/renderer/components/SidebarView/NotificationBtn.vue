@@ -11,6 +11,9 @@
     <div class="notification-container" v-show="sidebar.isNotificationbarOpen">
       <div class="arrow-left"></div>
       <notification-column v-for="notification in notifications.items" :notification="notification"></notification-column>
+      <div class="nothing" v-if="notifications.items.length === 0">
+        <p>nothing</p>
+      </div>
     </div>
   </div>
 </template>
@@ -99,6 +102,13 @@ export default {
       border-top: 10px solid transparent;
       border-bottom: 10px solid transparent;
       border-right: 10px solid #fff;
+    }
+    .nothing {
+      padding: 10px;
+      color: #999;
+      p {
+        text-align: center;
+      }
     }
   }
 }

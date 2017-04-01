@@ -37,7 +37,7 @@
 <style lang="scss" scoped>
 .tweets {
   width: 100%;
-  min-width: 420px;
+  min-width: 300px;
   .tweets-header {
     width: 100%;
     height: 40px;
