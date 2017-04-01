@@ -6,7 +6,7 @@
     <div id="tweetbar">
       <tweetbar-view></tweetbar-view>
     </div>
-    <div id="mainarea" :class="{ open: !sidebar.isTweetbarOpen }" @click="closeBar()">
+    <div id="mainarea" :class="{ open: !sidebar.isTweetbarOpen }">
       <timeline></timeline>
     </div>
   </div>
@@ -32,11 +32,6 @@
       ...mapState([
         'sidebar'
       ])
-    },
-    methods: {
-      closeBar () {
-        this.$store.dispatch('closeAllBar')
-      }
     }
   }
 </script>

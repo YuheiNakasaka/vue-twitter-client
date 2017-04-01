@@ -74,10 +74,10 @@ export default {
     }
     .list-container {
       position: fixed;
-      top: 163px;
+      top: 216px;
       left: 60px;
       width: 250px;
-      min-height: 350px;
+      min-height: 250px;
       padding: 10px;
       border: 1px solid #eee;
       border-radius: 4px;

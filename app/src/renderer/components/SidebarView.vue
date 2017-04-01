@@ -5,6 +5,7 @@
       <search-btn></search-btn>
       <home-btn></home-btn>
       <notification-btn></notification-btn>
+      <mention-btn></mention-btn>
       <list-btn></list-btn>
       <setting-btn class="setting-btn"></setting-btn>
     </div>
@@ -16,6 +17,7 @@ import TweetBtn from './SidebarView/TweetBtn'
 import SearchBtn from './SidebarView/SearchBtn'
 import HomeBtn from './SidebarView/HomeBtn'
 import NotificationBtn from './SidebarView/NotificationBtn'
+import MentionBtn from './SidebarView/MentionBtn'
 import ListBtn from './SidebarView/ListBtn'
 import SettingBtn from './SidebarView/SettingBtn'
 
@@ -26,6 +28,7 @@ export default {
     SearchBtn,
     HomeBtn,
     NotificationBtn,
+    MentionBtn,
     ListBtn,
     SettingBtn
   }

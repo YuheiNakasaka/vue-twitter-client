@@ -317,10 +317,14 @@ export const getNotifications = (context) => {
   // notification is not stopped
   let stream = client.stream('user', {replies: 'all'})
   stream.on('favorite', (data) => {
-    context.commit(types.SET_FAVORITE_FOR_NOTIFICATION, data.source)
+    if (data.source.id_str !== context.state.user.user.id_str) {
+      context.commit(types.SET_FAVORITE_FOR_NOTIFICATION, data.source)
+    }
   })
   stream.on('follow', (data) => {
-    context.commit(types.SET_FOLLOW_FOR_NOTIFICATION, data.source)
+    if (data.source.id_str !== context.state.user.user.id_str) {
+      context.commit(types.SET_FOLLOW_FOR_NOTIFICATION, data.source)
+    }
   })
   stream.on('tweet', (data) => {
     let screenName = context.state.user.user.screen_name
@@ -366,4 +370,39 @@ export const getNotifications = (context) => {
       context.commit(types.SET_RT_FOR_NOTIFICATION, {retweet: retweet, retweeters: retweeters})
     })
   }
+}
+
+export const getMentions = (context) => {
+  let client = getClient()
+  resetFeedFetcher()
+  context.commit(types.UPDATE_TWEET_NAME, 'Mention')
+  context.commit(types.CLEAR_TWEETS)
+
+  client.get('statuses/mentions_timeline', {count: 100}, (error, data, response) => {
+    if (!error) {
+      let tweets = data.reverse()
+      context.commit(types.ADD_TWEETS, tweets)
+      eventEmitter.emit('finishFetchMentionTweetsFirst', tweets[tweets.length - 1])
+    }
+  })
+
+  let timerOfMention
+  eventEmitter.on('finishFetchMentionTweetsFirst', (tweet) => {
+    let latestTweet = tweet
+    timerOfMention = setInterval(() => {
+      client.get('statuses/mentions_timeline', {since_id: latestTweet.id_str, count: 10}, (error, data, response) => {
+        if (!error) {
+          if (data.length > 0) {
+            let tweets = data.reverse()
+            context.commit(types.ADD_TWEETS, tweets)
+            latestTweet = tweets[tweets.length - 1]
+          }
+        }
+      })
+    }, 30000)
+  })
+
+  eventEmitter.on('stopTimerOfList', () => {
+    clearTimeout(timerOfMention)
+  })
 }

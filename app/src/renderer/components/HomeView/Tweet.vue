@@ -50,8 +50,8 @@
           <tweet-body :tweet="tweet"></tweet-body>
         </div>
         <div class="meta">
-          <div class="replies btn" @click="toggleReplyForm">
-            <span><i class="fa fa-reply" aria-hidden="true"></i></span>
+          <div class="replies btn">
+            <span @click="toggleReplyForm"><i class="fa fa-reply" aria-hidden="true"></i></span>
           </div>
           <div class="retweets btn" @click="updateRT(tweet)">
             <span :class="{retweeted: tweet.retweeted}"><i class="fa fa-retweet" aria-hidden="true"></i></span>
@@ -85,7 +85,8 @@
     },
     computed: {
       ...mapState([
-        'user'
+        'user',
+        'sidebar'
       ])
     },
     methods: {
