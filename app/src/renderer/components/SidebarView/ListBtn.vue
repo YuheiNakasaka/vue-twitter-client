@@ -5,21 +5,23 @@
         <span class="btn" @click="toggleLists">
           <i class="fa fa-list" aria-hidden="true"></i>
         </span>
-        <div class="list-container" v-show="sidebar.isListbarOpen">
-          <div class="arrow-left"></div>
-          <div class="inner">
-            <div class="title">
-              <span>Lists</span>
-            </div>
-            <div class="lists">
-              <div class="list">
-                <div class="list-name" v-for="item in lists.items">
-                  <span @click="displayList(item)">{{ item.full_name }}</span>
+        <transition name="fade">
+          <div class="list-container" v-show="sidebar.isListbarOpen">
+            <div class="arrow-left"></div>
+            <div class="inner">
+              <div class="title">
+                <span>Lists</span>
+              </div>
+              <div class="lists">
+                <div class="list">
+                  <div class="list-name" v-for="item in lists.items">
+                    <span @click="displayList(item)">{{ item.full_name }}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -56,6 +58,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
 .list-box {
   .list-btns {
     .btn {

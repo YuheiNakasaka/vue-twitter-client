@@ -159,7 +159,7 @@ export const postTweet = (context, payload) => {
         }).then(() => {
           if (images.length === mediaIdStrings.length) {
             console.log('finish', mediaIdStrings.length)
-            outResolve(mediaIdStrings.filter((id) => {return id !== null}))
+            outResolve(mediaIdStrings.filter((id) => { return id !== null }))
           } else {
             console.log('yet', mediaIdStrings.length)
             _loop()

@@ -4,8 +4,8 @@
       <tweet-btn></tweet-btn>
       <search-btn></search-btn>
       <home-btn></home-btn>
-      <notification-btn></notification-btn>
       <mention-btn></mention-btn>
+      <notification-btn></notification-btn>
       <list-btn></list-btn>
       <setting-btn class="setting-btn"></setting-btn>
     </div>

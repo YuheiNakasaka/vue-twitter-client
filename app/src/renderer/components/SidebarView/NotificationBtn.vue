@@ -8,13 +8,15 @@
         <span class="count" v-show="notifications.visibleNotificationCount > 0">{{ notifications.visibleNotificationCount }}</span>
       </div>
     </div>
-    <div class="notification-container" v-show="sidebar.isNotificationbarOpen">
-      <div class="arrow-left"></div>
-      <notification-column v-for="notification in notifications.items" :notification="notification"></notification-column>
-      <div class="nothing" v-if="notifications.items.length === 0">
-        <p>nothing</p>
+    <transition name="fade">
+      <div class="notification-container" v-show="sidebar.isNotificationbarOpen">
+        <div class="arrow-left"></div>
+        <notification-column v-for="notification in notifications.items" :notification="notification"></notification-column>
+        <div class="nothing" v-if="notifications.items.length === 0">
+          <p>nothing</p>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -46,6 +48,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
 .notification-box {
   .notification-btns {
     .btn {
@@ -93,7 +101,7 @@ export default {
       position: fixed;
       width: 0;
       height: 0;
-      margin-top: 135px;
+      margin-top: 190px;
       margin-left: -10px;
       border-top: 10px solid transparent;
       border-bottom: 10px solid transparent;

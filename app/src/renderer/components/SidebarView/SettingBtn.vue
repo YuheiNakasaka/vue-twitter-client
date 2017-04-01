@@ -7,20 +7,22 @@
         </span>
       </div>
     </div>
-    <div class="setting-container" v-show="sidebar.isSettingbarOpen">
-      <div class="arrow-left"></div>
-      <div class="inner">
-        <div class="settings">
-          <div class="setting">
-            <div class="setting-name">
-              <span>
-                <a @click="openInOsBrowser('https://twitter.com/razokulover')">Feedback</a>
-              </span>
+    <transition name="fade">
+      <div class="setting-container" v-show="sidebar.isSettingbarOpen">
+        <div class="arrow-left"></div>
+        <div class="inner">
+          <div class="settings">
+            <div class="setting">
+              <div class="setting-name">
+                <span>
+                  <a @click="openInOsBrowser('https://twitter.com/razokulover')">Feedback</a>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -51,6 +53,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
 .setting-box {
   .setting-btns {
     .btn {

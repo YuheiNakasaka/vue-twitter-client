@@ -7,12 +7,14 @@
         </span>
       </div>
     </div>
-    <div class="search-container" v-show="sidebar.isSearchbarOpen">
-      <div class="arrow-left"></div>
-      <div class="inner">
-        <input v-model="query" @keydown.enter="displaySearchTweets"/>
+    <transition name="fade">
+      <div class="search-container" v-show="sidebar.isSearchbarOpen">
+        <div class="arrow-left"></div>
+        <div class="inner">
+          <input v-model="query" @keydown.enter="displaySearchTweets"/>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -47,6 +49,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
 .search-box {
   .search-btns {
     .btn {
