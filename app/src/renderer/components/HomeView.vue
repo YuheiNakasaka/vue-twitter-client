@@ -45,6 +45,7 @@
   position: fixed;
   top: 0;
   height: 100%;
+  min-height: 450px;
   z-index: 2000;
   background-color: #353535;
 }
@@ -53,6 +54,7 @@
   top: 0;
   left: 55px;
   height: 100%;
+  z-index: 1999;
   background-color: #4174C0;
 }
 #mainarea {

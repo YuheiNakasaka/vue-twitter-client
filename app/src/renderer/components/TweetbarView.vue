@@ -17,6 +17,27 @@
         <div class="input-text">
           <textarea :value="sidebar.text" @input="updateFormText"></textarea>
         </div>
+        <div class="images-preview" v-show="images.length > 0">
+          <div class="inner">
+            <div class="image">
+              <span class="inner" v-for="image in images">
+                <img :src="image"/>
+                <div class="close">
+                  <span @click="removeImage(image)"><i class="fa fa-times"></i></span>
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="others">
+          <div class="btns">
+            <div class="media">
+              <input type="file" v-on:change="selectImage" accept="image/jpg,image/png" multiple/>
+              <i class="fa fa-picture-o" aria-hidden="true"></i>
+              <span>add image</span>
+            </div>
+          </div>
+        </div>
         <div class="btns">
           <div class="total-words">
             <span>{{ wordCount }}</span>
@@ -39,7 +60,8 @@ export default {
   data () {
     return {
       tweetable: false,
-      tweeting: false
+      tweeting: false,
+      images: []
     }
   },
   watch: {
@@ -65,11 +87,15 @@ export default {
     closeBar () {
       this.$store.dispatch('toggleTweetBar')
     },
+    removeImage (image) {
+      this.images.splice(this.images.indexOf(image), 1)
+    },
     postTweet () {
       if (this.tweetable === true) {
         this.tweeting = true
-        this.$store.dispatch('postTweet', {tweet: this.sidebar.text}).then((res) => {
+        this.$store.dispatch('postTweet', {tweet: this.sidebar.text, images: this.images}).then((res) => {
           this.tweeting = false
+          this.removeImage()
           this.$store.dispatch('clearFormText')
           this.$store.dispatch('toggleTweetBar')
         }).catch((e) => {
@@ -79,6 +105,19 @@ export default {
     },
     updateFormText (e) {
       this.$store.dispatch('updateFormText', {text: e.target.value})
+    },
+    selectImage (e) {
+      let vm = this
+      if (e.target.files.length > 0 && e.target.files.length < 5) { // up画像
+        for (let i = 0; i < e.target.files.length; i++) {
+          let file = e.target.files[i]
+          let reader = new FileReader()
+          reader.onload = (resp) => {
+            vm.images.push(resp.target.result)
+          }
+          reader.readAsDataURL(file)
+        }
+      }
     }
   }
 }
@@ -127,6 +166,38 @@ export default {
         font-size: 14px;
       }
     }
+    .images-preview {
+      .inner {
+        display: flex;
+        padding: 0 10px 10px 10px;
+        .image {
+          .inner {
+            position: relative;
+            display: inline-block;
+            img {
+              max-height: 50px;
+            }
+            .close {
+              span {
+                position: absolute;
+                top: 0;
+                margin-top: -20px;
+                margin-left: 0;
+                padding: 0 3px;
+                border-radius: 50%;
+                background-color: #fff;
+                cursor: pointer;
+                i {
+                  display: inline-block;
+                  font-size: 12px;
+                  color: #555;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     .btns {
       text-align: right;
       padding: 0 10px;
@@ -150,6 +221,30 @@ export default {
         background-color: #569CFF;
         opacity: 1;
         cursor: pointer;
+      }
+    }
+    .others {
+      .btns {
+        .media {
+          position: relative;
+          margin-bottom: 10px;
+          padding: 10px;
+          border-radius: 4px;
+          font-size: 13px;
+          color: #fff;
+          background-color: #569CFF;
+          input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 230px;
+            height: 32px;
+            border: 0;
+            border-radius: 4px;
+            opacity: 0;
+            cursor: pointer;
+          }
+        }
       }
     }
   }
