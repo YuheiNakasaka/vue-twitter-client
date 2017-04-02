@@ -2,7 +2,7 @@
 
 Twitter client created with Vue.js + Electron
 
-<img src="https://i.gyazo.com/efa829295518aa44e73e277ce3e7ecf9.png">
+<img src="https://i.gyazo.com/efa829295518aa44e73e277ce3e7ecf9.png" width="400">
 
 # Feature
 
