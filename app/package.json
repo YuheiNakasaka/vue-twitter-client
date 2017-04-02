@@ -4,7 +4,7 @@
   "description": "Simple twitter client created with electron-vue",
   "main": "./dist/main.js",
   "dependencies": {
-    "axios": "^0.15.3",
+    "babel-runtime": "^6.23.0",
     "dotenv": "^4.0.0",
     "font-awesome": "^4.7.0",
     "moment": "^2.18.1",

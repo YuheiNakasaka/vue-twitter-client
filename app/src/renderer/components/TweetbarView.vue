@@ -34,7 +34,7 @@
             <div class="media">
               <input type="file" v-on:change="selectImage" accept="image/jpg,image/png" multiple/>
               <i class="fa fa-picture-o" aria-hidden="true"></i>
-              <span>add image</span>
+              <span>add images</span>
             </div>
           </div>
         </div>

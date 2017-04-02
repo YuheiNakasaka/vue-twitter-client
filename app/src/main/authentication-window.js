@@ -7,10 +7,13 @@ import Twitter from 'node-twitter-api'
 export default class AuthenticationWindow extends EventEmitter {
   constructor (callback) {
     super()
+    this.consumerKey = '7sVNvnON2PTKLcQcCbmNhLvFG'
+    this.consumerSecret = '9Qq7ZbpHN0SxY7ErEnBgfYviJkWszN8YOFZb0uytTuUBii4aAd'
+
     const twitter = new Twitter({
       callback: 'http://example.com',
-      consumerKey: process.env.TWITTER_CONSUMER_KEY,
-      consumerSecret: process.env.TWITTER_CONSUMER_SECRET
+      consumerKey: this.consumerKey,
+      consumerSecret: this.consumerSecret
     })
 
     twitter.getRequestToken((error, requestToken, requestTokenSecret) => {
@@ -31,6 +34,8 @@ export default class AuthenticationWindow extends EventEmitter {
               that.emit(
                 'authentication-succeeded',
                 {
+                  consumerKey: that.consumerKey,
+                  consumerSecret: that.consumerSecret,
                   accessToken: accessToken,
                   accessTokenSecret: accessTokenSecret,
                   user: data

@@ -1,6 +1,29 @@
-# vue-twitter-client-app
+# vue-twitter-client
 
-> An electron-vue project
+Twitter client created with Vue.js + Electron
+
+<img src="https://i.gyazo.com/efa829295518aa44e73e277ce3e7ecf9.png">
+
+# Feature
+
+- display hometime line
+- display image, animated gif and video
+- display lists
+- display mentions
+- show profile
+- show some notifications
+- search tweet
+- tweet text
+- tweet text with images
+- retweet
+- favorite
+- reply
+- follow/unfollow
+- open media with link clicked
+- streaming timeline(home, search)
+- real time update with pooling(list, mention)
+
+# Development
 
 ## Build Setup
 
