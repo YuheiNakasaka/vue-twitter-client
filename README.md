@@ -1,12 +1,12 @@
 # vue-twitter-client
 
-Twitter client created with Vue.js + Electron
+Twitter client built with Vue.js 2.x + Electron
 
 - [Download for MacOS/Windows/Linux](https://github.com/YuheiNakasaka/vue-twitter-client/releases/tag/v0.0.1)
 
 <img src="https://i.gyazo.com/efa829295518aa44e73e277ce3e7ecf9.png" width="400">
 
-# Feature
+# Features
 
 - display hometime line
 - display image, animated gif and video
@@ -50,3 +50,7 @@ More information can be found [here](https://simulatedgreg.gitbooks.io/electron-
 ---
 
 This project was generated from [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about this project can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+
+# License
+
+[MIT](https://opensource.org/licenses/MIT)
