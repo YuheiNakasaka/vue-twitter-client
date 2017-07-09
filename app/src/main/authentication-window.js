@@ -7,8 +7,8 @@ import Twitter from 'node-twitter-api'
 export default class AuthenticationWindow extends EventEmitter {
   constructor (callback) {
     super()
-    this.consumerKey = '7sVNvnON2PTKLcQcCbmNhLvFG'
-    this.consumerSecret = '9Qq7ZbpHN0SxY7ErEnBgfYviJkWszN8YOFZb0uytTuUBii4aAd'
+    this.consumerKey = 'YOUR_CONSUMERKEY'
+    this.consumerSecret = 'YOUR_CONSUMER_SECRET'
 
     const twitter = new Twitter({
       callback: 'http://example.com',
@@ -23,13 +23,13 @@ export default class AuthenticationWindow extends EventEmitter {
     })
   }
 
-  getAccessToken(twitter, requestToken, requestTokenSecret, url) {
+  getAccessToken (twitter, requestToken, requestTokenSecret, url) {
     let that = this
     this.window.webContents.on('will-navigate', (event, url) => {
       let matched
       if (matched = url.match(/\?oauth_token=([^&]*)&oauth_verifier=([^&]*)/)) {
         twitter.getAccessToken(requestToken, requestTokenSecret, matched[2], (error, accessToken, accessTokenSecret) => {
-          twitter.verifyCredentials(accessToken, accessTokenSecret, {}, function(error, data, response) {
+          twitter.verifyCredentials(accessToken, accessTokenSecret, {}, function (error, data, response) {
             if (!error) {
               that.emit(
                 'authentication-succeeded',
