@@ -2,9 +2,18 @@
 
 Twitter client built with Vue.js 2.x + Electron
 
-- [Download for MacOS/Windows/Linux](https://github.com/YuheiNakasaka/vue-twitter-client/releases/tag/v0.0.1)
-
 <img src="https://i.gyazo.com/efa829295518aa44e73e277ce3e7ecf9.png" width="400">
+
+# Install
+
+To try this app, you need to set your consumer key and consumer secret.
+[https://github.com/YuheiNakasaka/vue-twitter-client/blob/master/app/src/main/authentication-window.js#L10](https://github.com/YuheiNakasaka/vue-twitter-client/blob/master/app/src/main/authentication-window.js#L10)
+
+And install a repo & build & package it in your local machine like this.
+
+```[example]
+$ electron-packager . vue-twitter-client --platform=darwin --arch=x64 --version=0.0.1
+```
 
 # Features
 
